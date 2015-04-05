@@ -1,0 +1,56 @@
+default:
+  description: 'Default task for grunt. Spits out some info about your JS then kicks off a watch.'
+  tasks:
+    - 'audit'
+    - 'jshint:lax' # :lax to avoid not being able to start the grunt process if the code is bad
+    - 'watch'
+
+############################
+# Helper tasks
+############################
+
+# also available, jshint:lax which will lint and still pass the grunt task
+
+js_on_watch: # Run when the JS changes
+  description: 'These tasks get run when the watch task fires for the JavaScript.'
+  tasks:
+    - 'jsbeautifier:act'
+    - 'jshint:lax'
+    - 'shell:test'
+
+lint:
+  description: 'Make sure the JS checks out.'
+  tasks:
+    - 'jsbeautifier:lint'
+    - 'jshint:strict'
+
+audit: # Audit the code, see how we're doing
+- 'todo'
+- 'dry-js'
+
+test:
+- 'shell:test'
+
+############################
+# Tasks called via git hooks
+############################
+
+# The following hooks will allow the user to commit JS that fails linting,
+# however will not permit them to push code with jshint issues.
+
+pre-push:
+  description: 'Ensure that there are no build or workflow-breaking issues.'
+  tasks:
+    - 'test'
+    - 'lint'
+
+# pre-commit:
+# description: 'TODO: Do we want something like this?'
+# tasks:
+#   - 'jsbeautiier:act'
+
+post-commit:
+  description: 'Inform the dev about the current state of the branch. This will spit out jshint errors, but not fail if present.'
+  tasks:
+    - 'audit'
+    - 'jshint:lax'
