@@ -2,6 +2,9 @@ bower_components
 .tmp
 .sass-cache
 
+# Ignore the automatically generated docs directory
+doc/
+
 # Convenience, name anything with .ignore to have it ignored
 *.ignore
 

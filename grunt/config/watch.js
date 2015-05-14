@@ -1,10 +1,18 @@
 module.exports = {
-	js: {
-		files: [ '<%= vars.paths.js %>' ],
-		tasks: [ 'js_on_watch' ]
+	default: {
+		files: [ '<%= vars.paths.devScripts %>' ],
+		tasks: [ '_js_on_watch' ]
 	},
-	test: {
-		files: [ '<%= vars.paths.test %>' ],
-		tasks: [ 'test' ]
+	_lint_optimized: {
+		files: [ '<%= vars.paths.devScripts %>' ],
+		tasks: [ '_js_o_lint_on_watch' ]
+	},
+	_test_optimized: {
+		files: [ '<%= vars.paths.devScripts %>' ],
+		tasks: [ '_js_o_test_on_watch' ]
+	},
+	_docs_optimized: {
+		files: [ '<%= vars.paths.jsdoc %>' ],
+		tasks: [ '_js_o_docs_on_watch' ]
 	}
 };

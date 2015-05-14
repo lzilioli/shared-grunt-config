@@ -14,6 +14,7 @@ module.exports = function( grunt ) {
 	var task; // task context
 	var options; // task options
 	var hooks; // hook configs
+	var noPrompt; // option passed to task via flag
 
 	function nextQuestion() {
 		if ( !hooks.length ) {
@@ -32,8 +33,8 @@ module.exports = function( grunt ) {
 		grunt.log.writeln( hookConfig.name.yellow );
 		grunt.log.writeln( getHeaderFor( hookConfig.name ).yellow );
 		grunt.log.writeln( [ 'This hook will', hookConfig.description ].join( ' ' ).yellow );
-		grunt.log.writeln( '\nDo you want to install this hook?'.yellow );
 		getYesNoResponse(
+			'\nDo you want to install this hook?'.yellow,
 			function() {
 				// The user said yes! Install the hook
 				// TODO: extend to allow the user to specify the type of hook if they say no
@@ -54,13 +55,11 @@ module.exports = function( grunt ) {
 		// If there is already that type of hook installed
 		if ( fs.existsSync( './' + whereToPutIt ) ) {
 			// Ask if the user wants to overwrite the existing hook
-			grunt.log.writeln( [
-				'A hook already exists at',
-				whereToPutIt + '.',
-				'Do you wish to overwrite it?'
-			].join( ' ' ).red );
-
-			getYesNoResponse(
+			getYesNoResponse( [
+					'A hook already exists at',
+					whereToPutIt + '.',
+					'Do you wish to overwrite it?'
+				].join( ' ' ).red,
 				function() {
 					// The user said yes. Overwrite the existing hook.
 					actuallyInstallHook( hookToCopy, whereToPutIt, sourceCanonicalName );
@@ -103,22 +102,25 @@ module.exports = function( grunt ) {
 	 * @param  {string}    what to ask the user. (defaults to 'Y/N?')
 	 * @return {undefined} n/a
 	 */
-	function getYesNoResponse( yesCb, noCb, promptStr ) {
-		promptStr = promptStr || 'Y/N?';
-		prompt.get( [ promptStr ], function( err, result ) {
+	function getYesNoResponse( promptStr, yesCb, noCb ) {
+		if ( noPrompt ) {
+			yesCb();
+			return;
+		}
+		grunt.log.writeln( promptStr );
+		prompt.get( [ 'Y/N?' ], function( err, result ) {
 			if ( err ) {
 				grunt.fail.fatal( 'An error occured: ', err );
 			} else {
 				var yesOpts = [ 'yes', 'y' ];
 				var noOpts = [ 'no', 'n' ];
-				var response = result[ promptStr ].toLowerCase().trim();
+				var response = result[ 'Y/N?' ].toLowerCase().trim();
 				if ( _.contains( yesOpts, response ) ) {
 					yesCb();
 				} else if ( _.contains( noOpts, response ) ) {
 					noCb();
 				} else {
-					grunt.log.writeln( 'Unrecognized response: ', response );
-					getYesNoResponse( yesCb, noCb, promptStr );
+					getYesNoResponse( ( 'Unrecognized response: ' + response ), yesCb, noCb );
 				}
 			}
 		} );
@@ -136,6 +138,7 @@ module.exports = function( grunt ) {
 		task = this;
 		options = task.data.options;
 		hooks = task.data.options.hooks;
+		noPrompt = grunt.option( 'no-prompt' );
 		done = this.async();
 		// Start the prompt.
 		prompt.start();

@@ -5,10 +5,27 @@ module.exports = function( repoRoot, grunt ) {
 
 	init.apply( this, arguments );
 
+	var isJsDocEnabled = false;
+	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
+	grunt.config( '_jsdoc', grunt.config( 'jsdoc' ) );
+
+	grunt.registerTask( 'jsdoc', function() {
+		if ( isJsDocEnabled ) {
+			grunt.task.run( [ '_jsdoc' ] );
+		} else {
+			grunt.log.writeln( 'jsdoc task not enabled for this repo.' );
+			grunt.log.writeln( 'To enable jsdoc invoke enableJsDoc() on the object returned from shared-grunt-config.' );
+		}
+	} );
+
 	return {
 		addJs: getMergeFn( 'js' ),
+		addJsdoc: getMergeFn( 'jsdoc' ),
 		addTodo: getMergeFn( 'todo' ),
-		addTest: getMergeFn( 'test' )
+		addTest: getMergeFn( 'test' ),
+		enableJsdoc: function() {
+			isJsDocEnabled = true;
+		}
 	};
 
 	function getMergeFn( forKey ) {

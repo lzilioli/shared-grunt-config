@@ -2,7 +2,7 @@ var path = require( 'path' );
 var extend = require( 'extend' );
 
 var files = {
-	src: [ '<%= vars.paths.js %>' ]
+	src: [ '<%= vars.paths.js %>', '<%= vars.paths.es6 %>', '<%= vars.paths.es6Ignore %>' ]
 };
 
 module.exports = function( grunt ) {
