@@ -1,7 +1,0 @@
-node_modules/
-assets_internal/scripts/third-party/
-assets_internal/build/
-assets/build/
-test/
-coverage/
-doc/

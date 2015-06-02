@@ -20,7 +20,7 @@ o-docs:
   description: 'Watch files and run tasks specific to writing documentation.'
   tasks:
     - 'babel'
-    - 'jsdoc'
+    - 'jsdoc:dev'
     - 'lint-lax'
     - 'watch:_docs_optimized'
 
@@ -36,7 +36,7 @@ _js_o_lint_on_watch:
   - 'babel'
   - 'lint'
   - 'test'
-  - 'jsdoc'
+  - 'jsdoc:dev'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_test_on_watch:
@@ -44,13 +44,13 @@ _js_o_test_on_watch:
   - 'babel'
   - 'lint-lax'
   - 'test'
-  - 'jsdoc'
+  - 'jsdoc:dev'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_docs_on_watch:
   - 'beautify'
   - 'babel'
-  - 'jsdoc'
+  - 'jsdoc:dev'
   - 'lint'
   - 'test'
 
@@ -66,7 +66,7 @@ _js_on_watch:       # Run when the JS changes
     - 'beautify'
     - 'lint-lax'
     - 'test'
-    - 'jsdoc'
+    - 'jsdoc:dev'
 
 beautify:
   description: 'Beautify the JS. (jsbeautifier,jscs)'
@@ -90,15 +90,15 @@ lint-lax:
 
 audit:             # Audit the code, see how we're doing
 - 'todo'
-- 'dry-js'
+- 'jsinspect'
 
 test:              # Unit tests!
 - 'babel'
 - 'shell:test'
 
-############################
-# Tasks called via git hooks
-############################
+####################################
+# Tasks called via git and npm hooks
+####################################
 
 # The following hooks will allow the user to commit JS that fails linting,
 # however will not permit them to push code with jshint issues.
@@ -119,3 +119,9 @@ post-commit:
   tasks:
     - 'audit'
     - 'lint-lax'
+
+_pre-release: # This task is referenced from grunt-shared-config.js
+  description: 'Internal task run prior to the release task.'
+  tasks:
+    - 'babel'
+    - 'jsdoc:dist'

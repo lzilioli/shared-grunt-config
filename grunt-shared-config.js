@@ -5,16 +5,40 @@ module.exports = function( repoRoot, grunt ) {
 
 	init.apply( this, arguments );
 
+	// wrap the jsdoc task
 	var isJsDocEnabled = false;
 	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
 	grunt.config( '_jsdoc', grunt.config( 'jsdoc' ) );
 
-	grunt.registerTask( 'jsdoc', function() {
-		if ( isJsDocEnabled ) {
-			grunt.task.run( [ '_jsdoc' ] );
+	grunt.registerTask( 'jsdoc', function( target ) {
+		if ( target && isJsDocEnabled ) {
+			grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
+		} else if ( !target && isJsDocEnabled ) {
+			grunt.fail.fatal( 'jsdoc task must be run with a target {dev,dist}. You should generally rely on the watch, o-docs, or pre-release tasks for purposes of generating jsdoc.' );
 		} else {
 			grunt.log.writeln( 'jsdoc task not enabled for this repo.' );
-			grunt.log.writeln( 'To enable jsdoc invoke enableJsDoc() on the object returned from shared-grunt-config.' );
+			grunt.log.writeln( 'To enable jsdoc invoke enableJsdoc() on the object returned from shared-grunt-config.' );
+		}
+	} );
+
+	// Wrap the release task
+	grunt.task.renameTask( 'release', '_release' );
+	grunt.config( '_release', grunt.config( 'release' ) );
+	grunt.registerTask( 'release', 'Release the module.', function() {
+		grunt.task.run( [ '_pre-release', '_release' ] );
+	} );
+
+	// wrap the babel task
+	var isES6Enabled = false;
+	grunt.task.renameTask( 'babel', '_babel' );
+	grunt.config( '_babel', grunt.config( 'babel' ) );
+
+	grunt.registerTask( 'babel', function( target ) {
+		if ( isES6Enabled ) {
+			grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
+		} else {
+			grunt.log.writeln( 'babel task not enabled for this repo.' );
+			grunt.log.writeln( 'To enable babel invoke enableES6() on the object returned from shared-grunt-config.' );
 		}
 	} );
 
@@ -25,6 +49,9 @@ module.exports = function( repoRoot, grunt ) {
 		addTest: getMergeFn( 'test' ),
 		enableJsdoc: function() {
 			isJsDocEnabled = true;
+		},
+		enableES6: function() {
+			isES6Enabled = true;
 		}
 	};
 

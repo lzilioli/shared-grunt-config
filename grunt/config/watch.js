@@ -8,7 +8,10 @@ module.exports = {
 		tasks: [ '_js_o_lint_on_watch' ]
 	},
 	_test_optimized: {
-		files: [ '<%= vars.paths.devScripts %>' ],
+		files: [
+			'<%= vars.paths.devScripts %>',
+			'<%= vars.paths.test %>'
+		],
 		tasks: [ '_js_o_test_on_watch' ]
 	},
 	_docs_optimized: {
