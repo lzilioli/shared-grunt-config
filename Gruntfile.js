@@ -1,3 +1,5 @@
+'use strict';
+
 /* istanbul ignore next */
 module.exports = function( grunt ) {
 	var config = require( './' )( __dirname, grunt );

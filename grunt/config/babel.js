@@ -1,6 +1,8 @@
 module.exports = {
 	options: {
-		sourceMap: true
+		sourceMap: true,
+		auxiliaryComment: 'istanbul ignore next',
+		retainLines: true
 	},
 	dist: {
 		files: [ {

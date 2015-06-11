@@ -1,4 +1,7 @@
+'use strict';
+
 var _ = require( 'underscore' );
+var fs = require( 'fs' );
 
 /* istanbul ignore next */
 module.exports = function( repoRoot, grunt ) {
@@ -9,7 +12,6 @@ module.exports = function( repoRoot, grunt ) {
 	var isJsDocEnabled = false;
 	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
 	grunt.config( '_jsdoc', grunt.config( 'jsdoc' ) );
-
 	grunt.registerTask( 'jsdoc', function( target ) {
 		if ( target && isJsDocEnabled ) {
 			grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
@@ -32,7 +34,6 @@ module.exports = function( repoRoot, grunt ) {
 	var isES6Enabled = false;
 	grunt.task.renameTask( 'babel', '_babel' );
 	grunt.config( '_babel', grunt.config( 'babel' ) );
-
 	grunt.registerTask( 'babel', function( target ) {
 		if ( isES6Enabled ) {
 			grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
@@ -63,11 +64,15 @@ module.exports = function( repoRoot, grunt ) {
 
 	function mergeConfig( key, value ) {
 		if ( !_.isArray( value ) ) {
-			throw new Error( 'Argument to addJs or addTodo must be an array.' );
+			throw new Error( 'Argument to add' + capFirstLetter( key ) + ' must be an array.' );
 		}
 		var curConfig = grunt.config.get( 'vars.paths.' + key );
 		curConfig.push( value );
 		grunt.config.set( 'vars.paths.' + key, _.flatten( curConfig ) );
+	}
+
+	function capFirstLetter( forStr ) {
+		return forStr.charAt( 0 ).toUpperCase() + forStr.slice( 1 );
 	}
 
 };
@@ -79,7 +84,9 @@ function init( repoRoot, grunt ) {
 
 	grunt.file.setBase( __dirname );
 
-	grunt.loadTasks( 'grunt/tasks' );
+	if ( fs.existsSync( 'grunt/tasks' ) && fs.statSync( 'grunt/tasks' ).isDirectory() ) {
+		grunt.loadTasks( 'grunt/tasks' );
+	}
 
 	require( 'load-grunt-tasks' )( grunt );
 
@@ -97,7 +104,7 @@ function init( repoRoot, grunt ) {
 		},
 		// can optionally pass options to load-grunt-tasks.
 		// If you set to false, it will disable auto loading tasks.
-		loadGruntTasks: false,
+		loadGruntTasks: false, // we do this ourselves above
 		// can post process config object before it gets passed to grunt
 		postProcess: function( /* config */) {}
 	} );

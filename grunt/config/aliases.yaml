@@ -30,33 +30,16 @@ o-test:
     - 'babel'
     - 'watch:_test_optimized'
 
-# if you rename this task, you need to update the string in grunt/config/watch.js
-_js_o_lint_on_watch:
-  - 'beautify'
-  - 'babel'
-  - 'lint'
-  - 'test'
-  - 'jsdoc:dev'
-
-# if you rename this task, you need to update the string in grunt/config/watch.js
-_js_o_test_on_watch:
-  - 'beautify'
-  - 'babel'
-  - 'lint-lax'
-  - 'test'
-  - 'jsdoc:dev'
-
-# if you rename this task, you need to update the string in grunt/config/watch.js
-_js_o_docs_on_watch:
-  - 'beautify'
-  - 'babel'
-  - 'jsdoc:dev'
-  - 'lint'
-  - 'test'
 
 ############################
-# Helper tasks
+# Internal tasks
 ############################
+
+_pre-release: # This task is referenced from grunt-shared-config.js
+  description: 'Internal task run prior to the release task.'
+  tasks:
+    - 'babel'
+    - 'jsdoc:dist'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_on_watch:       # Run when the JS changes
@@ -65,8 +48,36 @@ _js_on_watch:       # Run when the JS changes
     - 'babel'      # Keep first to compile quick
     - 'beautify'
     - 'lint-lax'
-    - 'test'
+    - 'shell:test'
     - 'jsdoc:dev'
+
+# if you rename this task, you need to update the string in grunt/config/watch.js
+_js_o_lint_on_watch:
+  - 'beautify'
+  - 'babel'
+  - 'lint'
+  - 'shell:test'
+  - 'jsdoc:dev'
+
+# if you rename this task, you need to update the string in grunt/config/watch.js
+_js_o_test_on_watch:
+  - 'beautify'
+  - 'babel'
+  - 'lint-lax'
+  - 'shell:test'
+  - 'jsdoc:dev'
+
+# if you rename this task, you need to update the string in grunt/config/watch.js
+_js_o_docs_on_watch:
+  - 'beautify'
+  - 'babel'
+  - 'jsdoc:dev'
+  - 'lint'
+  - 'shell:test'
+
+############################
+# Helper tasks
+############################
 
 beautify:
   description: 'Beautify the JS. (jsbeautifier,jscs)'
@@ -119,9 +130,3 @@ post-commit:
   tasks:
     - 'audit'
     - 'lint-lax'
-
-_pre-release: # This task is referenced from grunt-shared-config.js
-  description: 'Internal task run prior to the release task.'
-  tasks:
-    - 'babel'
-    - 'jsdoc:dist'
