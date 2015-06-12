@@ -10,7 +10,7 @@ module.exports = function( grunt ) {
 	return {
 		options: {},
 		test: {
-			command: 'node ' + cover + (cover ? ' --dir coverage.ignore' : '') + ' <%= sharedConfig.root %>/node_modules/mocha/bin/_mocha <%= sharedConfig.root %>/test/runner.js <%= sharedConfig.curRepo %>'
+			command: 'node ' + cover + ( cover ? ' --dir coverage.ignore' : '' ) + ' <%= sharedConfig.root %>/node_modules/mocha/bin/_mocha <%= sharedConfig.root %>/test-runner.js <%= sharedConfig.curRepo %>'
 		}
 	};
 };
