@@ -26,7 +26,7 @@ module.exports = function( repoRoot, grunt ) {
 	// Wrap the release task
 	grunt.task.renameTask( 'release', '_release' );
 	grunt.config( '_release', grunt.config( 'release' ) );
-	grunt.registerTask( 'release', 'Wrapper for release task that incorporates logic for shared-grunt-config.', 'Release the module.', function() {
+	grunt.registerTask( 'release', 'Wrapper for release task that incorporates logic for shared-grunt-config.', function() {
 		grunt.task.run( [ '_pre-release', '_release' ] );
 	} );
 
