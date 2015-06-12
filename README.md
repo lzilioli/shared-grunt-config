@@ -31,13 +31,26 @@ If you have additional JS that you want considered for the JS-based tasks, or ad
 
 ```javascript
 module.exports = function( grunt ) {
-    var config = require( 'shared-grunt-config' )( __dirname, grunt );
-    config.addJs([ 'assets/scripts/**/*.js' ]); // will also be used for the todo task
-    config.addTodo([ 'bin/*.sh' ]); // look for todos in all files in bin/*.sh
-    config.addTest([ 'tests/**' ]); // watch all files in tests/ for changes
-    config.addJsdoc([ 'dist/*.js' ]); // Add additional files to watch and use when generating jsdocs
-    config.enableJsdoc(); // Turn on jsdoc generation for this repo
-    config.enableES6(); // Turn on es6 compilation with babel for this repo
+    require( 'shared-grunt-config' )( __dirname, grunt )
+        
+        // Turn on jsdoc
+        .enableJsdoc()
+        
+         // Turn on es6 => es5 transpile
+        .enableES6()
+
+        // add more files in which to search for TODOs
+        .addTodo([ 'bin/*.sh' ])
+
+        // add files for js stuff like linting, beautifying, etc.
+        // will also be used for the todo task
+        .addJs([ 'assets/scripts/**/*.js' ])
+        
+        // add test files to watch
+        .addTest([ 'tests/**' ])
+        
+        // add more jsdoc files
+        .addJsdoc([ 'dist/*.js' ]);
 };
 ```
 
@@ -225,6 +238,10 @@ Watch will watch your JavaScript files and when they change run the `js_on_watch
 #### test
 
 This will run the JavaScript test suite for your repo. In order start testing your code, simply create a `tests/` directory. Any JavaScript file within that directory that matches the naming pattern `*-tests.js` will be invoked by the test runner when this task runs.
+
+The `test` task will also generate coverage information using istanbul to a directory named `coverage.ignore`.
+
+To skip generating the coverage, run `grunt test --no-cover`
 
 *shell:test*
 

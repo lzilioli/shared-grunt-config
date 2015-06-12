@@ -12,7 +12,7 @@ module.exports = function( repoRoot, grunt ) {
 	var isJsDocEnabled = false;
 	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
 	grunt.config( '_jsdoc', grunt.config( 'jsdoc' ) );
-	grunt.registerTask( 'jsdoc', function( target ) {
+	grunt.registerTask( 'jsdoc', 'Wrapper for jsdoc task that incorporates logic for shared-grunt-config.', function( target ) {
 		if ( target && isJsDocEnabled ) {
 			grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
 		} else if ( !target && isJsDocEnabled ) {
@@ -26,7 +26,7 @@ module.exports = function( repoRoot, grunt ) {
 	// Wrap the release task
 	grunt.task.renameTask( 'release', '_release' );
 	grunt.config( '_release', grunt.config( 'release' ) );
-	grunt.registerTask( 'release', 'Release the module.', function() {
+	grunt.registerTask( 'release', 'Wrapper for release task that incorporates logic for shared-grunt-config.', 'Release the module.', function() {
 		grunt.task.run( [ '_pre-release', '_release' ] );
 	} );
 
@@ -34,31 +34,43 @@ module.exports = function( repoRoot, grunt ) {
 	var isES6Enabled = false;
 	grunt.task.renameTask( 'babel', '_babel' );
 	grunt.config( '_babel', grunt.config( 'babel' ) );
-	grunt.registerTask( 'babel', function( target ) {
+	grunt.registerTask( 'babel', 'Wrapper for babel task that incorporates logic for shared-grunt-config.', function( target ) {
 		if ( isES6Enabled ) {
 			grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
 		} else {
-			grunt.log.writeln( 'babel task not enabled for this repo.' );
-			grunt.log.writeln( 'To enable babel invoke enableES6() on the object returned from shared-grunt-config.' );
+			grunt.log.writeln( 'ES6 modules are not being transpiled.' );
+			grunt.log.writeln( 'To enable this feature, iinvoke `enableES6()`' );
+			grunt.log.writeln( 'on the object returned by shared-grunt-config.' );
+			grunt.log.writeln( 'If you do not want this feature, you may safely' );
+			grunt.log.writeln( 'ignore this message.' );
 		}
 	} );
 
-	return {
+	// Helpers for debugging
+	grunt.registerTask( 'logo', console.log.bind( undefined, grunt ) );
+	grunt.registerTask( 'cfg', console.log.bind( undefined, grunt.config() ) );
+
+	var SHAREDCFG = {
 		addJs: getMergeFn( 'js' ),
 		addJsdoc: getMergeFn( 'jsdoc' ),
 		addTodo: getMergeFn( 'todo' ),
 		addTest: getMergeFn( 'test' ),
 		enableJsdoc: function() {
 			isJsDocEnabled = true;
+			return SHAREDCFG;
 		},
 		enableES6: function() {
 			isES6Enabled = true;
+			return SHAREDCFG;
 		}
 	};
+
+	return SHAREDCFG;
 
 	function getMergeFn( forKey ) {
 		return function( vals ) {
 			mergeConfig( forKey, vals );
+			return SHAREDCFG;
 		};
 	}
 

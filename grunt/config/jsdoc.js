@@ -1,11 +1,13 @@
+'use strict';
+
 // https://www.npmjs.com/package/grunt-jsdoc
 
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
 	return {
 		options: {
 			configure: '<%= sharedConfig.root %>/.jsdocrc',
 			template: '<%= sharedConfig.root %>/node_modules/minami',
-			ignoreWarnings: !grunt.option('w-jsd')
+			ignoreWarnings: !grunt.option( 'w-jsd' )
 		},
 		dev: {
 			jsdoc: '<%= sharedConfig.root %>/node_modules/.bin/jsdoc',
@@ -21,5 +23,5 @@ module.exports = function(grunt) {
 				destination: '<%= sharedConfig.curRepo %>/docs'
 			}
 		}
-	}
+	};
 };

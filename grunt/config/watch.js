@@ -1,4 +1,7 @@
 module.exports = {
+	options: {
+		debounceDelay: 5000
+	},
 	default: {
 		files: [ '<%= vars.paths.devScripts %>' ],
 		tasks: [ '_js_on_watch' ]
