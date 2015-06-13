@@ -27,25 +27,58 @@ module.exports = function( repoRoot, grunt ) {
 		}
 	);
 
-	grunt.registerTask( '_logPublishDisableMessage', function() {
-		if ( !isNpmPublishEnabled ) {
-			grunt.log.writeln( 'Skipping publish to npm.' );
-			grunt.log.writeln( 'Call `enableNpmPublish()` to enable.' );
+	grunt.registerTask(
+		'_logPublishDisableMessage',
+		'internal task',
+		function() {
+			if ( !isNpmPublishEnabled ) {
+				grunt.log.writeln( 'Skipping publish to npm.' );
+				grunt.log.writeln( 'Call `enableNpmPublish()` to enable.' );
+			}
 		}
+	);
 
-	} );
+	function getCharSwitch( tv, fv ) {
+		return ( function( tv, fv ) {
+			return {
+				get: function( dir ) {
+					return dir ? tv : fv;
+				}
+			};
+		}( tv, fv ) );
+	}
+
+	function setUnderscore( task, dir ) {
+		if ( 'false' === dir ) {
+			dir = false;
+		}
+		var cs = getCharSwitch( '_', '' );
+		var newName = cs.get( dir ) + task;
+		var oldName = cs.get( !dir ) + task;
+		grunt.task.renameTask( oldName, newName );
+	}
+
+	// Task for toggling an _ in front of a task name
+	grunt.registerTask( '_uify', 'internal task', setUnderscore );
 
 	// Wrap the release task
 	var isNpmPublishEnabled = false;
+	setUnderscore( 'release', true );
 	grunt.registerTask(
 		'rel',
 		'Release your module.',
 		function( target ) {
-			if(!target) {
-				grunt.fail.fatal('You must explicitely pass a target to release. grunt rel:{major,minor,patch}');
+			if ( !target ) {
+				grunt.fail.fatal( 'You must explicitely pass a target to release. grunt rel:{major,minor,patch}' );
 			}
 			grunt.config( 'release.options.npm', isNpmPublishEnabled );
-			grunt.task.run( [ '_pre-release', '_logPublishDisableMessage', 'release' + ':' + target ] );
+			setUnderscore( 'release', false );
+			grunt.task.run( [
+				'_pre-release',
+				'_logPublishDisableMessage',
+				'release' + ':' + target,
+				'_uify:release:true'
+			] );
 		}
 	);
 
