@@ -39,6 +39,9 @@ module.exports = function( grunt ) {
          // Turn on es6 => es5 transpile
         .enableES6()
 
+        // Turn on npm publishing
+        .enableNpmPublish()
+
         // add more files in which to search for TODOs
         .addTodo([ 'bin/*.sh' ])
 

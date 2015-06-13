@@ -12,39 +12,58 @@ module.exports = function( repoRoot, grunt ) {
 	var isJsDocEnabled = false;
 	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
 	grunt.config( '_jsdoc', grunt.config( 'jsdoc' ) );
-	grunt.registerTask( 'jsdoc', 'Wrapper for jsdoc task that incorporates logic for shared-grunt-config.', function( target ) {
-		if ( target && isJsDocEnabled ) {
-			grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
-		} else if ( !target && isJsDocEnabled ) {
-			grunt.fail.fatal( 'jsdoc task must be run with a target {dev,dist}. You should generally rely on the watch, o-docs, or pre-release tasks for purposes of generating jsdoc.' );
-		} else {
-			grunt.log.writeln( 'jsdoc task not enabled for this repo.' );
-			grunt.log.writeln( 'To enable jsdoc invoke enableJsdoc() on the object returned from shared-grunt-config.' );
+	grunt.registerTask(
+		'jsdoc',
+		'Wrapper for jsdoc task that incorporates logic for shared-grunt-config.',
+		function( target ) {
+			if ( target && isJsDocEnabled ) {
+				grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
+			} else if ( !target && isJsDocEnabled ) {
+				grunt.fail.fatal( 'jsdoc task must be run with a target {dev,dist}. You should generally rely on the watch, o-docs, or pre-release tasks for purposes of generating jsdoc.' );
+			} else {
+				grunt.log.writeln( 'jsdoc task not enabled for this repo.' );
+				grunt.log.writeln( 'To enable jsdoc invoke enableJsdoc() on the object returned from shared-grunt-config.' );
+			}
 		}
-	} );
+	);
+
+	grunt.registerTask('_logPublishDisableMessage', function(){
+		if(!isNpmPublishEnabled){
+			grunt.log.writeln('Skipping publish to npm.')
+			grunt.log.writeln('Call `enableNpmPublish()` to enable.')
+		}
+
+	});
 
 	// Wrap the release task
-	grunt.task.renameTask( 'release', '_release' );
-	grunt.config( '_release', grunt.config( 'release' ) );
-	grunt.registerTask( 'release', 'Wrapper for release task that incorporates logic for shared-grunt-config.', function() {
-		grunt.task.run( [ '_pre-release', '_release' ] );
-	} );
+	var isNpmPublishEnabled = false;
+	grunt.registerTask(
+		'rel',
+		'Release your module.',
+		function(target) {
+			grunt.config('release.options.npm', isNpmPublishEnabled);
+			grunt.task.run( [ '_pre-release', '_logPublishDisableMessage', 'release' + ( target ? ':' + target : '' ) ] );
+		}
+	);
 
 	// wrap the babel task
 	var isES6Enabled = false;
 	grunt.task.renameTask( 'babel', '_babel' );
 	grunt.config( '_babel', grunt.config( 'babel' ) );
-	grunt.registerTask( 'babel', 'Wrapper for babel task that incorporates logic for shared-grunt-config.', function( target ) {
-		if ( isES6Enabled ) {
-			grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
-		} else {
-			grunt.log.writeln( 'ES6 modules are not being transpiled.' );
-			grunt.log.writeln( 'To enable this feature, iinvoke `enableES6()`' );
-			grunt.log.writeln( 'on the object returned by shared-grunt-config.' );
-			grunt.log.writeln( 'If you do not want this feature, you may safely' );
-			grunt.log.writeln( 'ignore this message.' );
+	grunt.registerTask( 'babel',
+		'Wrapper for babel task that incorporates logic for shared-grunt-config.',
+		function( target ) {
+			if ( isES6Enabled ) {
+				grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
+			} else {
+				grunt.log.writeln( 'ES6 modules are not being transpiled.' );
+				grunt.log.writeln( 'To enable this feature, iinvoke `enableES6()`' );
+				grunt.log.writeln( 'on the object returned by shared-grunt-config.' );
+				grunt.log.writeln( 'If you do not want this feature, you may safely' );
+				grunt.log.writeln( 'ignore this message.' );
+			}
 		}
-	} );
+	);
 
 	// Helpers for debugging
 	grunt.registerTask( 'logo', console.log.bind( undefined, grunt ) );
@@ -61,6 +80,10 @@ module.exports = function( repoRoot, grunt ) {
 		},
 		enableES6: function() {
 			isES6Enabled = true;
+			return SHAREDCFG;
+		},
+		enableNpmPublish: function() {
+			isNpmPublishEnabled = true;
 			return SHAREDCFG;
 		}
 	};
