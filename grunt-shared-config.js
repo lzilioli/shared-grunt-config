@@ -41,8 +41,11 @@ module.exports = function( repoRoot, grunt ) {
 		'rel',
 		'Release your module.',
 		function( target ) {
+			if(!target) {
+				grunt.fail.fatal('You must explicitely pass a target to release. grunt rel:{major,minor,patch}');
+			}
 			grunt.config( 'release.options.npm', isNpmPublishEnabled );
-			grunt.task.run( [ '_pre-release', '_logPublishDisableMessage', 'release' + ( target ? ':' + target : '' ) ] );
+			grunt.task.run( [ '_pre-release', '_logPublishDisableMessage', 'release' + ':' + target ] );
 		}
 	);
 
