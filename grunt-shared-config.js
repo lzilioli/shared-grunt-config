@@ -27,21 +27,21 @@ module.exports = function( repoRoot, grunt ) {
 		}
 	);
 
-	grunt.registerTask('_logPublishDisableMessage', function(){
-		if(!isNpmPublishEnabled){
-			grunt.log.writeln('Skipping publish to npm.')
-			grunt.log.writeln('Call `enableNpmPublish()` to enable.')
+	grunt.registerTask( '_logPublishDisableMessage', function() {
+		if ( !isNpmPublishEnabled ) {
+			grunt.log.writeln( 'Skipping publish to npm.' );
+			grunt.log.writeln( 'Call `enableNpmPublish()` to enable.' );
 		}
 
-	});
+	} );
 
 	// Wrap the release task
 	var isNpmPublishEnabled = false;
 	grunt.registerTask(
 		'rel',
 		'Release your module.',
-		function(target) {
-			grunt.config('release.options.npm', isNpmPublishEnabled);
+		function( target ) {
+			grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			grunt.task.run( [ '_pre-release', '_logPublishDisableMessage', 'release' + ( target ? ':' + target : '' ) ] );
 		}
 	);
