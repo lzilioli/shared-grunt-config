@@ -171,9 +171,10 @@ If your repo utilizes jsdoc, you should add the following to your `.gitignore`. 
 
 To view non-fatal warnings encountered by jsdoc during doc generation, run your grunt task with the flag  `--w-jsd` (short for `--watch-jsdoc`).
 
-#### release
+#### rel
 
 Perform a release of the module using [grunt-release](https://github.com/geddski/grunt-release).
+Before doing so, this task runs babel to compile es6 if enabled for your repo, and runs jsdoc:dist to generate documentation to be published to npm.
 
 #### todo
 
