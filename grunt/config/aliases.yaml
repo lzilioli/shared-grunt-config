@@ -88,12 +88,12 @@ post-commit:
 _startup:
   tasks:
     - 'clean'
-    - 'babel:lax'
+    - 'babel'
 
 _pre-release: # This task is referenced from grunt-shared-config.js
   tasks:
     - '_startup'
-    - 'babel:dist'
+    - 'babel'
     - 'jsdoc:dist'
 
 #---------------------------
@@ -104,7 +104,7 @@ _pre-release: # This task is referenced from grunt-shared-config.js
 _js_on_watch:
   - 'beautify'
   - 'lint-lax'
-  - 'babel:dist'
+  - 'babel'
   - 'shell:test'
   - 'jsdoc:dev'
 
@@ -112,11 +112,11 @@ _js_on_watch:
 _js_o_lint_on_watch:
   - 'beautify'
   - 'lint'
-  - 'babel:dist'
+  - 'babel'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_test_on_watch:
-  - 'babel:dist'
+  - 'babel'
   - 'shell:test'
   - 'beautify'
 

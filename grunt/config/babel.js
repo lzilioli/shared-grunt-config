@@ -12,12 +12,5 @@ module.exports = {
 			ext: '.es6.js',
 			extDot: 'first'
 		} ]
-	},
-	lax: {
-		options: {
-			// TODO this silences the warning output
-			force: true,
-			verbose: true
-		}
 	}
 };
