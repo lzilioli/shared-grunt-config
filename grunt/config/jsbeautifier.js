@@ -5,7 +5,7 @@ module.exports = function( grunt ) {
 
 	var rcPath = grunt.file.exists( '.jsbeautifyrc' ) ? '.jsbeautifyrc' : path.join( __dirname, '../../.jsbeautifyrc' );
 
-	var jsSource = [ '<%= vars.paths.js %>', '<%= vars.paths.es6Ignore %>' ];
+	var jsSource = [ '<%= vars.paths.js %>', '<%= vars.paths.tests %>', '<%= vars.paths.es6Ignore %>' ];
 
 	return {
 		act: {

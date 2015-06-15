@@ -6,12 +6,12 @@ var theConfig = {
 	paths: {
 		jsdoc: [
 			'<%= vars.paths.js %>',
-			'!tests/**/*.js',
 			'<%= vars.paths.es6 %>',
 			'<%= vars.paths.es6Ignore %>',
 			'<%= sharedConfig.curRepo %>/README.md',
 			'<%= sharedConfig.curRepo %>/package.json'
 		],
+		// this is user defined (via addTest) and is only used for watching
 		test: [],
 		todo: [
 			'*.md'
@@ -20,8 +20,10 @@ var theConfig = {
 			'*.js',
 			'grunt/**/*.js',
 			'lib/**/*.js',
-			'bin/**/*.js',
-			'test/**/*.js',
+			'bin/**/*.js'
+		],
+		// these are js files for tests
+		tests: [
 			'tests/**/*.js'
 		],
 		es6: [
@@ -33,8 +35,13 @@ var theConfig = {
 		],
 		devScripts: [
 			'<%= vars.paths.js %>',
+			'<%= vars.paths.tests %>',
 			'<%= vars.paths.es6 %>',
 			'<%= vars.paths.es6Ignore %>'
+		],
+		gen: [
+			'<%= sharedConfig.curRepo %>/coverage.ignore',
+			'<%= sharedConfig.curRepo %>/jsdoc.ignore'
 		]
 	}
 };

@@ -1,9 +1,9 @@
 default:
   description: 'Default task for grunt. Spits out some info about your JS then kicks off a watch.'
   tasks:
-    - 'babel'
+    - 'lint-lax' # let this run in case babel in preabmle fails, since the force flag causes babel to suppress its output
+    - '_startup'
     - 'audit'
-    - 'lint-lax' # don't want this to fail hard, or the watch won't run
     - 'watch:default'
 
 ############################
@@ -12,21 +12,21 @@ default:
 o-lint:
   description: 'Watch files and run tasks specific to linting.'
   tasks:
-    - 'babel'
+    - '_startup'
     - 'lint-lax'
     - 'watch:_lint_optimized'
 
 o-docs:
   description: 'Watch files and run tasks specific to writing documentation.'
   tasks:
-    - 'babel'
+    - '_startup'
     - 'jsdoc:dev'
     - 'watch:_docs_optimized'
 
 o-test:
   description: 'Watch files and run tasks specific to testing.'
   tasks:
-    - 'babel'
+    - '_startup'
     - 'watch:_test_optimized'
 
 ############################
@@ -44,12 +44,14 @@ lint:
   tasks:
     - 'jsbeautifier:strict'
     - 'jshint:strict'
+    - 'jshint:test-strict'
     - 'jscs:strict'
 
 lint-lax:
   description: 'Lax version of the lint task.'
   tasks:
     - 'jshint:lax'
+    - 'jshint:test-lax'
     - 'jscs:lax'
     # - 'jsbeautifier:lax' # no way to lint and have this task succeed on error :(
 
@@ -58,7 +60,7 @@ audit:
 - 'jsinspect'
 
 test:
-- 'babel'
+- '_startup'
 - 'shell:test'
 
 ####################################
@@ -83,10 +85,15 @@ post-commit:
 ############################
 # Internal tasks
 ############################
+_startup:
+  tasks:
+    - 'clean'
+    - 'babel:lax'
 
 _pre-release: # This task is referenced from grunt-shared-config.js
   tasks:
-    - 'babel'
+    - '_startup'
+    - 'babel:dist'
     - 'jsdoc:dist'
 
 #---------------------------
@@ -96,25 +103,26 @@ _pre-release: # This task is referenced from grunt-shared-config.js
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_on_watch:
   - 'beautify'
-  - 'babel'
   - 'lint-lax'
+  - 'babel:dist'
   - 'shell:test'
   - 'jsdoc:dev'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_lint_on_watch:
   - 'beautify'
-  - 'babel'
   - 'lint'
+  - 'babel:dist'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_test_on_watch:
-  - 'beautify'
-  - 'babel'
+  - 'babel:dist'
   - 'shell:test'
+  - 'beautify'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_docs_on_watch:
   - 'beautify'
-  - 'babel'
   - 'jsdoc:dev'
+  - 'lint-lax'
+  - 'babel'

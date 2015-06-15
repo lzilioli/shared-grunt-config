@@ -1,3 +1,4 @@
 module.exports = {
-	es6Compiled: '<%= vars.paths.es6Compiled %>'
+	es6: '<%= vars.paths.es6Compiled %>',
+	gen: '<%= vars.paths.gen %>'
 };
