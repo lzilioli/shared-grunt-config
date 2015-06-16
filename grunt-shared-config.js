@@ -88,7 +88,7 @@ module.exports = function( repoRoot, grunt ) {
 			}
 
 			var changelogText = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
-			changelogText = changelogText + '\n\n' + changesText + '\n\n';
+			changelogText = changelogText + '\n\n' + changesText + '\n';
 			grunt.config( 'release.options.changelogText', changelogText );
 			grunt.config( 'release.options.tagMessage', changelogText );
 
