@@ -92,7 +92,7 @@ module.exports = function( repoRoot, grunt ) {
 			grunt.config( 'release.options.changelogText', changelogText );
 			grunt.config( 'release.options.tagMessage', changelogText );
 
-			// grunt.config( 'release.options.npm', isNpmPublishEnabled );
+			grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
 			grunt.task.run( [
 				'_pre-release',
