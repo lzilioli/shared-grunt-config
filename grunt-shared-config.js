@@ -69,7 +69,7 @@ module.exports = function( repoRoot, grunt ) {
 
 	grunt.registerTask( '_clearChanges', function() {
 		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
-			grunt.file.write( clPath, '' );
+			grunt.file.write( clPath, '\n' );
 			shell.exec( 'git add changes.md' );
 		}
 	} );
@@ -88,8 +88,9 @@ module.exports = function( repoRoot, grunt ) {
 			}
 
 			var changelogText = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
-			changelogText = changelogText + '\n\n' + changesText + '\n';
+			changelogText = changelogText + '\n\n' + changesText + '\n\n';
 			grunt.config( 'release.options.changelogText', changelogText );
+			grunt.config( 'release.options.tagMessage', changelogText );
 
 			// grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
