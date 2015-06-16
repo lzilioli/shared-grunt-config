@@ -93,7 +93,6 @@ _startup:
 _pre-release: # This task is referenced from grunt-shared-config.js
   tasks:
     - '_startup'
-    - 'babel'
     - 'jsdoc:dist'
 
 #---------------------------

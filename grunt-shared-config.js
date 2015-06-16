@@ -2,6 +2,8 @@
 
 var _ = require( 'underscore' );
 var fs = require( 'fs' );
+var path = require( 'path' );
+var shell = require( 'shelljs' );
 
 /* istanbul ignore next */
 module.exports = function( repoRoot, grunt ) {
@@ -58,12 +60,20 @@ module.exports = function( repoRoot, grunt ) {
 		grunt.task.renameTask( oldName, newName );
 	}
 
-	// Task for toggling an _ in front of a task name
-	grunt.registerTask( '_uify', 'internal task', setUnderscore );
+	var repo = grunt.config( 'sharedConfig.curRepo' );
+	var clPath = path.join( repo, 'changes.md' );
 
 	// Wrap the release task
 	var isNpmPublishEnabled = false;
 	setUnderscore( 'release', true );
+
+	grunt.registerTask( '_clearChanges', function() {
+		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
+			grunt.file.write( clPath, '' );
+			shell.exec( 'git add changes.md' );
+		}
+	} );
+
 	grunt.registerTask(
 		'rel',
 		'Release your module.',
@@ -71,13 +81,23 @@ module.exports = function( repoRoot, grunt ) {
 			if ( !target ) {
 				grunt.fail.fatal( 'You must explicitely pass a target to release. grunt rel:{major,minor,patch}' );
 			}
-			grunt.config( 'release.options.npm', isNpmPublishEnabled );
+
+			var changesText = '';
+			if ( grunt.file.exists( clPath ) ) {
+				changesText = grunt.file.read( clPath );
+			}
+
+			var changelogText = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
+			changelogText = changelogText + '\n\n' + changesText + '\n';
+			grunt.config( 'release.options.changelogText', changelogText );
+
+			// grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
 			grunt.task.run( [
 				'_pre-release',
 				'_logPublishDisableMessage',
-				'release' + ':' + target,
-				'_uify:release:true'
+				'_clearChanges',
+				'release' + ':' + target
 			] );
 		}
 	);

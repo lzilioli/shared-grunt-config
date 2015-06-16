@@ -1,15 +1,16 @@
 module.exports = {
 	options: {
-		// bump: false, //default: true
-		// changelog: true, //default: false
-		// changelogText: '<%= version %>\n', //default: '### <%= version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
+		bump: false, //default: true
+		changelog: true, //default: false
+		// Gets set by grunt-shared-config
+		changelogText: '', //default: '### <%= version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
 		// file: 'component.json', //default: package.json
 		// add: false, //default: true
 		// commit: false, //default: true
 		// tag: false, //default: true
 		// push: false, //default: true
 		// pushTags: false, //default: true
-		npm: false, //default: true
+		// npm: false, //default: true
 		// npmtag: true, //default: no tag
 		// indentation: '\t', //default: '  ' (two spaces)
 		// folder: 'folder/to/publish/to/npm', //default project root
