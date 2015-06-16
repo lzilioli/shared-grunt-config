@@ -1,3 +1,2 @@
-- changes.md appended to changelog and cleared as part of rel task
 - same message appended to tagmessage
 - nevermind, that didnt work
