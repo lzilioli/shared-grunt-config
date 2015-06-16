@@ -3,3 +3,9 @@
 - Remove `enableNpmPublish()` method and instead rely on presence or absence of `private: true` in the module's package.json.
 - Added `jsb` alias for easier beautification
 - Remove functionality of picking up changes in changes.md. It is much simpler to keep a running list at the top of the changelog, and have the `grunt release` task prepend a header above the running list with information about the release.
+
+
+# v0.1.2 - **2015-06-15**
+
+- changes.md appended to changelog and cleared as part of rel task
+
