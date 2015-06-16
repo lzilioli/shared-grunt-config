@@ -87,10 +87,11 @@ module.exports = function( repoRoot, grunt ) {
 				changesText = grunt.file.read( clPath );
 			}
 
-			var changelogText = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
-			changelogText = changelogText + '\n\n' + changesText + '\n';
+			var changelogMeta = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
+			var changelogText = changelogMeta + '\n\n' + changesText + '\n';
+			var versionText = 'v<%= version %>' + '\n' + changesText + '\n';
 			grunt.config( 'release.options.changelogText', changelogText );
-			grunt.config( 'release.options.tagMessage', changelogText );
+			grunt.config( 'release.options.tagMessage', versionText );
 
 			grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
