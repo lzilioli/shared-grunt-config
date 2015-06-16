@@ -89,9 +89,7 @@ module.exports = function( repoRoot, grunt ) {
 
 			var changelogMeta = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
 			var changelogText = changelogMeta + '\n\n' + changesText + '\n';
-			var versionText = 'v<%= version %>' + '\n' + changesText + '\n';
 			grunt.config( 'release.options.changelogText', changelogText );
-			grunt.config( 'release.options.tagMessage', versionText );
 
 			grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
