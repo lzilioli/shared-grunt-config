@@ -8,6 +8,9 @@ var shell = require( 'shelljs' );
 /* istanbul ignore next */
 module.exports = function( repoRoot, grunt ) {
 
+	// Because the default of false sucks.......
+	grunt.option( 'stack', true );
+
 	init.apply( this, arguments );
 
 	// wrap the jsdoc task

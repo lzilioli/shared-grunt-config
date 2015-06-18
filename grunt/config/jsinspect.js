@@ -9,7 +9,8 @@ module.exports = {
 			reporter: 'default'
 		},
 		src: [
-			'<%= vars.paths.devScripts %>'
+			// TODO jsinspect chokes on some es6 syntax, so we currently don't run against it
+			'<%= vars.paths.js %>'
 		]
 	}
 };
