@@ -95,9 +95,7 @@ These are very similar to the default task, however they are optimized to focus 
 
 ## hooks
 
-Running this task will install three git hooks in your repo's `./.git/hooks/` directory: `pre-push`, `post-commit`, and `prepare-commit-message`.
-
-`prepare-commit-message` will prepend a branch tag (i.e. `[UI-13]`) to your commit message if the branch name begins with `UI-`.
+Running this task will install two git hooks in your repo's `./.git/hooks/` directory: `pre-push`, and `post-commit`.
 
 ## rel:version|major|minor|patch
 
