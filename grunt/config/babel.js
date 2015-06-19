@@ -1,7 +1,7 @@
 module.exports = {
 	options: {
 		sourceMap: true,
-		auxiliaryComment: 'istanbul ignore next',
+		auxiliaryCommentBefore: 'istanbul ignore next',
 		retainLines: true
 	},
 	dist: {
