@@ -90,11 +90,6 @@ _startup:
     - 'clean'
     - 'babel'
 
-_pre-release: # This task is referenced from grunt-shared-config.js
-  tasks:
-    - '_startup'
-    - 'jsdoc:dist'
-
 #---------------------------
 # Watch Helpers
 #---------------------------

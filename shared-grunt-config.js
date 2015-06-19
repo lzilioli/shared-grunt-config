@@ -77,6 +77,12 @@ module.exports = function( repoRoot, grunt ) {
 		}
 	} );
 
+	grunt.registerTask( '_stageDocs', function() {
+		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
+			shell.exec( 'git add docs' );
+		}
+	} );
+
 	grunt.registerTask(
 		'rel',
 		'Release your module.',
@@ -97,8 +103,9 @@ module.exports = function( repoRoot, grunt ) {
 			grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
 			grunt.task.run( [
-				'_pre-release',
 				'_logPublishDisableMessage',
+				'clean',
+				'babel',
 				'_clearChanges',
 				'release' + ':' + target
 			] );

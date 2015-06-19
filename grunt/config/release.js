@@ -18,7 +18,7 @@ module.exports = {
 		commitMessage: '-- v<%= version %> RELEASE --', //default: 'release <%= version %>'
 		// tagMessage: 'tagging version <%= version %>', //default: 'Version <%= version %>',
 		// beforeBump: [], // optional grunt tasks to run before file versions are bumped
-		// afterBump: [], // optional grunt tasks to run after file versions are bumped
+		afterBump: [ 'jsdoc:dist', '_stageDocs' ], // optional grunt tasks to run after file versions are bumped
 		// beforeRelease: [], // optional grunt tasks to run after release version is bumped up but before release is packaged
 		// afterRelease: [], // optional grunt tasks to run after release is packaged
 		// github: {
