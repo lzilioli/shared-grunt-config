@@ -4,6 +4,10 @@ var _ = require( 'underscore' );
 
 var theConfig = {
 	paths: {
+		// These keys are populated by add* methods defined in shared-grunt-config.js
+		test: [],
+		todo: [],
+
 		jsdoc: [
 			'<%= vars.paths.js %>',
 			'<%= vars.paths.es6 %>',
@@ -11,16 +15,12 @@ var theConfig = {
 			'<%= sharedConfig.curRepo %>/README.md',
 			'<%= sharedConfig.curRepo %>/package.json'
 		],
-		// this is user defined (via addTest) and is only used for watching
-		test: [],
-		todo: [
-			'*.md'
-		],
 		js: [
 			'*.js',
 			'grunt/**/*.js',
 			'lib/**/*.js',
-			'bin/**/*.js'
+			'bin/**/*.js',
+			'!lib/**/*.es6.js'
 		],
 		// these are js files for tests
 		tests: [

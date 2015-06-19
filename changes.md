@@ -3,3 +3,4 @@
 - nevermind, that didnt work
 - stop running jsinspect against es6 because it chokes on some of the syntax
 - set grunt.option('stack') to true to get meaningful errors when grunt tasks fail
+- update readme, rename shared-grunt-config file, address todos

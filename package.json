@@ -1,6 +1,6 @@
 {
   "description": "Shared grunt configuration.",
-  "main": "grunt-shared-config.js",
+  "main": "shared-grunt-config.js",
   "private": true,
   "dependencies": {
     "extend": "^2.0.0",

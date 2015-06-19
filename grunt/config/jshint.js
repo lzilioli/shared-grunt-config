@@ -31,7 +31,6 @@ module.exports = function( grunt ) {
 				force: true
 			}
 		},
-		// TODO use the right file glob for tests only, exclude tests from normal lint
 		'test-strict': {
 			files: filesTest,
 			options: testRc

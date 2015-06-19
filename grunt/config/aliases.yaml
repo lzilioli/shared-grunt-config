@@ -101,10 +101,10 @@ _pre-release: # This task is referenced from grunt-shared-config.js
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_on_watch:
-  - 'beautify'
-  - 'lint-lax'
   - 'babel'
-  - 'shell:test'
+  - 'beautify'
+  - 'lint'
+  - 'shell:test_no_coverage'
   - 'jsdoc:dev'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
@@ -121,7 +121,7 @@ _js_o_test_on_watch:
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_docs_on_watch:
-  - 'beautify'
   - 'jsdoc:dev'
+  - 'beautify'
   - 'lint-lax'
   - 'babel'
