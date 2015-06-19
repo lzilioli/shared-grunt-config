@@ -77,9 +77,10 @@ module.exports = function( repoRoot, grunt ) {
 		}
 	} );
 
-	grunt.registerTask( '_stageDocs', function() {
+	grunt.registerTask( '_commitDocs', function() {
 		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
 			shell.exec( 'git add docs' );
+			shell.exec( 'git commit -m "doc update for release"' );
 		}
 	} );
 
