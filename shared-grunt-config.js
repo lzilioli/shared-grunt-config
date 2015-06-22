@@ -63,6 +63,7 @@ module.exports = function( repoRoot, grunt ) {
 		grunt.task.renameTask( oldName, newName );
 	}
 
+	var initialReleaseOptions;
 	var repo = grunt.config( 'sharedConfig.curRepo' );
 	var clPath = path.join( repo, 'changes.md' );
 
@@ -77,12 +78,25 @@ module.exports = function( repoRoot, grunt ) {
 		}
 	} );
 
-	grunt.registerTask( '_commitDocs', function() {
+	grunt.registerTask( '_stageDocs', function() {
 		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
 			shell.exec( 'git add docs' );
-			shell.exec( 'git commit -m "doc update for release"' );
 		}
 	} );
+
+	grunt.registerTask( '_setReleaseOptions', function() {
+		grunt.config( 'release.options', initialReleaseOptions );
+		var changesText = '';
+		if ( grunt.file.exists( clPath ) ) {
+			changesText = grunt.file.read( clPath );
+		}
+
+		var changelogMeta = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
+		var changelogText = changelogMeta + '\n\n' + changesText + '\n';
+		grunt.config( 'release.options.changelogText', changelogText );
+		grunt.config( 'release.options.npm', isNpmPublishEnabled );
+	} );
+
 
 	grunt.registerTask(
 		'rel',
@@ -92,21 +106,27 @@ module.exports = function( repoRoot, grunt ) {
 				grunt.fail.fatal( 'You must explicitely pass a target to release. grunt rel:{major,minor,patch}' );
 			}
 
-			var changesText = '';
-			if ( grunt.file.exists( clPath ) ) {
-				changesText = grunt.file.read( clPath );
-			}
+			initialReleaseOptions = grunt.config( 'release.options' );
 
-			var changelogMeta = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
-			var changelogText = changelogMeta + '\n\n' + changesText + '\n';
-			grunt.config( 'release.options.changelogText', changelogText );
+			grunt.config( 'release.options', {
+				bump: true,
+				changelog: false,
+				add: false,
+				commit: false,
+				tag: false,
+				push: false,
+				pushTags: false,
+				npm: false
+			} );
 
-			grunt.config( 'release.options.npm', isNpmPublishEnabled );
 			setUnderscore( 'release', false );
 			grunt.task.run( [
 				'_logPublishDisableMessage',
+				'release' + ':' + target,
 				'clean',
 				'babel',
+				'jsdoc:dist',
+				'_stageDocs',
 				'_clearChanges',
 				'release' + ':' + target
 			] );
