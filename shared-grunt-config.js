@@ -128,6 +128,7 @@ module.exports = function( repoRoot, grunt ) {
 				'jsdoc:dist',
 				'_stageDocs',
 				'_clearChanges',
+				'_setReleaseOptions',
 				'release' + ':' + target
 			] );
 		}
