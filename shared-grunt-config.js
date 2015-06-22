@@ -106,7 +106,7 @@ module.exports = function( repoRoot, grunt ) {
 				grunt.fail.fatal( 'You must explicitely pass a target to release. grunt rel:{major,minor,patch}' );
 			}
 
-			initialReleaseOptions = grunt.config( 'release.options' );
+			initialReleaseOptions = grunt.config.getRaw( 'release.options' );
 
 			grunt.config( 'release.options', {
 				bump: true,
@@ -120,17 +120,26 @@ module.exports = function( repoRoot, grunt ) {
 			} );
 
 			setUnderscore( 'release', false );
-			grunt.task.run( [
+
+			var tasks = [
 				'_logPublishDisableMessage',
 				'release' + ':' + target,
 				'clean',
-				'babel',
-				'jsdoc:dist',
+				'babel'
+			];
+
+			if ( !grunt.option( 'no-write' ) ) {
+				tasks.push( 'jsdoc:dist' );
+			}
+
+			tasks = tasks.concat( [
 				'_stageDocs',
-				'_clearChanges',
 				'_setReleaseOptions',
+				'_clearChanges',
 				'release' + ':' + target
 			] );
+
+			grunt.task.run( tasks );
 		}
 	);
 
