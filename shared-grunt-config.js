@@ -72,14 +72,14 @@ module.exports = function( repoRoot, grunt ) {
 	setUnderscore( 'release', true );
 
 	grunt.registerTask( '_clearChanges', function() {
-		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
+		if ( isNpmPublishEnabled && grunt.file.exists( 'changes.md' ) && !grunt.option( 'no-write' ) ) {
 			grunt.file.write( clPath, '\n' );
 			shell.exec( 'git add changes.md' );
 		}
 	} );
 
 	grunt.registerTask( '_stageDocs', function() {
-		if ( isNpmPublishEnabled && !grunt.option( 'no-write' ) ) {
+		if ( isNpmPublishEnabled && grunt.file.exists( 'docs' ) && !grunt.option( 'no-write' ) ) {
 			shell.exec( 'git add docs' );
 		}
 	} );
