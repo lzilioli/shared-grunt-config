@@ -1,6 +1,6 @@
 module.exports = {
 	options: {
-		bump: true, //this is set to true by the rel task on the first run
+		bump: false, //this is set to true by the rel task on the first run
 		changelog: true, //default: false
 		// Gets set by grunt-shared-config
 		changelogText: '', //default: '### <%= version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
