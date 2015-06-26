@@ -3,16 +3,20 @@
 
 # Table Of Contents
 
-- [Description](#description)
-- [Usage](#usage)
-    - [Gruntfile.js](#gruntfile.js)
-- [API](#api)
-- [Tasks](#tasks)
-    - [Watch Tasks](#watchtasks)
-    - [rel](#rel)
-    - [hooks](#hooks)
-    - [Other Tasks](#othertasks)
-- [Branching Strategy](#branchingstrategy)
+<!-- MarkdownTOC -->
+
+- Description
+- Usage
+    - Gruntfile.js
+    - API
+- Tasks
+    - Watch Tasks
+    - hooks
+    - rel:version|major|minor|patch
+- Other Tasks
+- Branching Strategy
+
+<!-- /MarkdownTOC -->
 
 # Description
 
@@ -160,7 +164,7 @@ If your repo utilizes jsdoc, you should add the following to your `.gitignore`. 
 *.ignore
 ```
 
-To view non-fatal warnings encountered by jsdoc during doc generation, run your grunt task with the flag  `--w-jsd` (short for `--watch-jsdoc`).
+To view non-fatal warnings encountered by jsdoc during doc generation, run your grunt task with the flag  `--w-jsd`.
 
 ### test
 
