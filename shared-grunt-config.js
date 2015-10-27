@@ -154,7 +154,7 @@ module.exports = function( repoRoot, grunt ) {
 				grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
 			} else {
 				grunt.log.writeln( 'ES6 modules are not being transpiled.' );
-				grunt.log.writeln( 'To enable this feature, iinvoke `enableES6()`' );
+				grunt.log.writeln( 'To enable this feature, invoke `enableES6()`' );
 				grunt.log.writeln( 'on the object returned by shared-grunt-config.' );
 				grunt.log.writeln( 'If you do not want this feature, you may safely' );
 				grunt.log.writeln( 'ignore this message.' );
