@@ -3,31 +3,45 @@
 
 # Table Of Contents
 
-<!-- MarkdownTOC -->
+<!-- MarkdownTOC autolink=true autoanchor=true bracket=round depth=3 -->
 
-- Description
-- Usage
-    - Gruntfile.js
-    - API
-- Tasks
-    - Watch Tasks
-    - hooks
-    - rel:version|major|minor|patch
-- Other Tasks
-- Branching Strategy
+- [Description](#description)
+- [Usage](#usage)
+    - [Gruntfile.js](#gruntfilejs)
+    - [API](#api)
+- [Tasks](#tasks)
+    - [Watch Tasks](#watch-tasks)
+        - [default](#default)
+        - [o-* tasks](#o--tasks)
+    - [hooks](#hooks)
+    - [rel:version|major|minor|patch](#relversion|major|minor|patch)
+- [Other Tasks](#other-tasks)
+    - [audit](#audit)
+    - [lint](#lint)
+    - [beautify](#beautify)
+    - [babel](#babel)
+    - [clean](#clean)
+    - [jsdoc](#jsdoc)
+    - [test](#test)
+- [Branching Strategy](#branching-strategy)
 
 <!-- /MarkdownTOC -->
 
+<a name="description"></a>
 # Description
 
 This repository exposes grunt configuration that can be shared between multiple modules. The tasks and their configuration are optimized for development of a nodejs npm package.
 
+**NOTE:** If you wish to contribute to this repo, please see [Branching Strategy](#branching-strategy).
+
+<a name="usage"></a>
 # Usage
 
 ```bash
 npm install --save-dev shared-grunt-config
 ```
 
+<a name="gruntfilejs"></a>
 ## Gruntfile.js
 
 ```javascript
@@ -38,6 +52,7 @@ module.exports = function( grunt ) {
 
 The first argument to the required function should be the fully qualified path to the root of your repo.
 
+<a name="api"></a>
 ## API
 
 The object returned by invoking the method exported by `shared-grunt-config` exposes an API for modifying certain parts of the configuration for the consuming repo.
@@ -73,10 +88,13 @@ module.exports = function( grunt ) {
 };
 ```
 
+<a name="tasks"></a>
 # Tasks
 
+<a name="watch-tasks"></a>
 ## Watch Tasks
 
+<a name="default"></a>
 ### default
 
 The default task is run when typing `grunt`. When a file being watched changes, the following will happen:
@@ -87,6 +105,7 @@ The default task is run when typing `grunt`. When a file being watched changes, 
 - unit tests will run, without generating a coverage report
 - jsdocs will be generated to `docs.ignore` within your repository
 
+<a name="o--tasks"></a>
 ### o-* tasks
 
 There are three "optimum" tasks defined:
@@ -97,10 +116,12 @@ There are three "optimum" tasks defined:
 
 These are very similar to the default task, however they are optimized to focus on one of the three things. e.g. the `o-docs` task will watch only files relevant to generating jsdoc, and will quickly generate jsdoc when files change so you can quickly refresh your browser to see how the docs have changed.
 
+<a name="hooks"></a>
 ## hooks
 
 Running this task will install two git hooks in your repo's `./.git/hooks/` directory: `pre-push`, and `post-commit`.
 
+<a name="relversion|major|minor|patch"></a>
 ## rel:version|major|minor|patch
 
 Perform a release of the module using [grunt-release](https://github.com/geddski/grunt-release).
@@ -109,12 +130,15 @@ Before doing so, this task runs babel to compile es6 if enabled for your repo, a
 
 If your repo contains a file called changes.md, as part of this task it will be read in and its contents included in the update to the changelog. This is a great way to track your changes as you work, and automate the step of updating your changelog when you do a release.
 
+<a name="other-tasks"></a>
 # Other Tasks
 
+<a name="audit"></a>
 ### audit
 
 The audit task will review your code and tell you how it went. It will check for TODOs, and try to detect duplicate JS to aid in DRYing out your code. At the time, es6 code will not be checked for duplicates because the task is not compatible with some of the new JavaScript syntax.
 
+<a name="lint"></a>
 ### lint
 
 This task will ensure that your JavaScript is up to our coding standards. It will fail as soon as the first task in the alias encounters an error.
@@ -123,10 +147,12 @@ This task will ensure that your JavaScript is up to our coding standards. It wil
 
 Lax version of lint. This task will succeed no matter if errors are encountered. Unfortunately, `jsbeautifier` provides no means for making the task pass in the event of lint errors, so it is not currently run as part of this task.
 
+<a name="beautify"></a>
 ### beautify
 
 This task will modify your JS files to the best of its ability to adhere to the defined coding style. Note that two tasks are run as part of this task. `jsbeautifier` is responsible for beautifying es5 code, while `jscs` is responsible for beautifying es6 code.
 
+<a name="babel"></a>
 ### babel
 
 This task is responsible for the transpilation of JS files named with the `.es6` postfix into node compatible JS. To turn this feature on, you should invoke `enableES6` on the config object.
@@ -147,10 +173,12 @@ If your repo contains any `.es6` files, you should add the following to your `.g
 - `test/**/*.es6`
 - `tests/**/*.es6`
 
+<a name="clean"></a>
 ### clean
 
 This task will clean files that get automatically generated by the grunt setup exposed by this repo.
 
+<a name="jsdoc"></a>
 ### jsdoc
 
 Generate documentation for the current repo. This task will have no effect if `enableJsdoc` is not invoked.
@@ -166,6 +194,7 @@ If your repo utilizes jsdoc, you should add the following to your `.gitignore`. 
 
 To view non-fatal warnings encountered by jsdoc during doc generation, run your grunt task with the flag  `--w-jsd`.
 
+<a name="test"></a>
 ### test
 
 This will run the JavaScript test suite for your repo. In order start testing your code, simply create a `tests/` directory. Any JavaScript file within that directory that matches the naming pattern `*-tests.js` will be invoked by the test runner when this task runs.
@@ -174,6 +203,7 @@ The `test` task will also generate coverage information using istanbul to a dire
 
 To skip generating the coverage, run `grunt test --no-cover`
 
+<a name="branching-strategy"></a>
 # Branching Strategy
 
 This repository contains two branches: `common` and `release`. The common branch is where any changes to this repo should be committed. This enables other people to create custom versions of the configuration exposed by this repo, while still inheriting the functionality on the common branch. Once you are ready to release a new version, check out the release branch, rebase it off of common, and force push it to origin.
