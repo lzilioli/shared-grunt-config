@@ -1,0 +1,5 @@
+- Upgrade grunt release to lzilioli's fork which allows for staging files, and enables removal of lots of complexity from this repo.
+- Remove the rel task in favor of the new and improved release task.
+- Remove `enableNpmPublish()` method and instead rely on presence or absence of `private: true` in the module's package.json.
+- Added `jsb` alias for easier beautification
+- Remove functionality of picking up changes in changes.md. It is much simpler to keep a running list at the top of the changelog, and have the `grunt release` task prepend a header above the running list with information about the release.

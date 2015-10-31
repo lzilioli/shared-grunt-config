@@ -7,6 +7,14 @@ default:
     - 'watch:default'
 
 ############################
+# Shortcuts
+############################
+jsb:
+  description: 'Alias for jsbeautifier/jscs.'
+  tasks:
+    - 'beautify'
+
+############################
 # Tasks for Focusing on a particular task
 ############################
 o-lint:

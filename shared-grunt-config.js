@@ -2,8 +2,6 @@
 
 var _ = require( 'underscore' );
 var fs = require( 'fs' );
-var path = require( 'path' );
-var shell = require( 'shelljs' );
 
 /* istanbul ignore next */
 module.exports = function( repoRoot, grunt ) {
@@ -32,117 +30,6 @@ module.exports = function( repoRoot, grunt ) {
 		}
 	);
 
-	grunt.registerTask(
-		'_logPublishDisableMessage',
-		'internal task',
-		function() {
-			if ( !isNpmPublishEnabled ) {
-				grunt.log.writeln( 'Skipping publish to npm.' );
-				grunt.log.writeln( 'Call `enableNpmPublish()` to enable.' );
-			}
-		}
-	);
-
-	function getCharSwitch( tv, fv ) {
-		return ( function( tv, fv ) {
-			return {
-				get: function( dir ) {
-					return dir ? tv : fv;
-				}
-			};
-		}( tv, fv ) );
-	}
-
-	function setUnderscore( task, dir ) {
-		if ( 'false' === dir ) {
-			dir = false;
-		}
-		var cs = getCharSwitch( '_', '' );
-		var newName = cs.get( dir ) + task;
-		var oldName = cs.get( !dir ) + task;
-		grunt.task.renameTask( oldName, newName );
-	}
-
-	var initialReleaseOptions;
-	var repo = grunt.config( 'sharedConfig.curRepo' );
-	var clPath = path.join( repo, 'changes.md' );
-
-	// Wrap the release task
-	var isNpmPublishEnabled = false;
-	setUnderscore( 'release', true );
-
-	grunt.registerTask( '_clearChanges', function() {
-		if ( isNpmPublishEnabled && grunt.file.exists( 'changes.md' ) && !grunt.option( 'no-write' ) ) {
-			grunt.file.write( clPath, '\n' );
-			shell.exec( 'git add changes.md' );
-		}
-	} );
-
-	grunt.registerTask( '_stageDocs', function() {
-		if ( isNpmPublishEnabled && grunt.file.exists( 'docs' ) && !grunt.option( 'no-write' ) ) {
-			shell.exec( 'git add docs' );
-		}
-	} );
-
-	grunt.registerTask( '_setReleaseOptions', function() {
-		grunt.config( 'release.options', initialReleaseOptions );
-		var changesText = '';
-		if ( grunt.file.exists( clPath ) ) {
-			changesText = grunt.file.read( clPath );
-		}
-
-		var changelogMeta = '# v<%= version %>\n**<%= grunt.template.today("yyyy-mm-dd") %>**';
-		var changelogText = changelogMeta + '\n\n' + changesText + '\n';
-		grunt.config( 'release.options.changelogText', changelogText );
-		grunt.config( 'release.options.npm', isNpmPublishEnabled );
-	} );
-
-
-	grunt.registerTask(
-		'rel',
-		'Release your module.',
-		function( target ) {
-			if ( !target ) {
-				grunt.fail.fatal( 'You must explicitely pass a target to release. grunt rel:{major,minor,patch}' );
-			}
-
-			initialReleaseOptions = grunt.config.getRaw( 'release.options' );
-
-			grunt.config( 'release.options', {
-				bump: true,
-				changelog: false,
-				add: false,
-				commit: false,
-				tag: false,
-				push: false,
-				pushTags: false,
-				npm: false
-			} );
-
-			setUnderscore( 'release', false );
-
-			var tasks = [
-				'_logPublishDisableMessage',
-				'release' + ':' + target,
-				'clean',
-				'babel'
-			];
-
-			if ( !grunt.option( 'no-write' ) ) {
-				tasks.push( 'jsdoc:dist' );
-			}
-
-			tasks = tasks.concat( [
-				'_stageDocs',
-				'_setReleaseOptions',
-				'_clearChanges',
-				'release' + ':' + target
-			] );
-
-			grunt.task.run( tasks );
-		}
-	);
-
 	// wrap the babel task
 	var isES6Enabled = false;
 	grunt.task.renameTask( 'babel', '_babel' );
@@ -164,7 +51,9 @@ module.exports = function( repoRoot, grunt ) {
 
 	// Helpers for debugging
 	grunt.registerTask( 'logo', console.log.bind( undefined, grunt ) );
-	grunt.registerTask( 'cfg', console.log.bind( undefined, grunt.config() ) );
+	grunt.registerTask( 'cfg', function() {
+		console.log( grunt.config.getRaw() );
+	} );
 
 	var SHAREDCFG = {
 		addJs: getMergeFn( 'js' ),
@@ -177,10 +66,6 @@ module.exports = function( repoRoot, grunt ) {
 		},
 		enableES6: function() {
 			isES6Enabled = true;
-			return SHAREDCFG;
-		},
-		enableNpmPublish: function() {
-			isNpmPublishEnabled = true;
 			return SHAREDCFG;
 		}
 	};

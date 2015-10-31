@@ -1,30 +1,55 @@
-module.exports = {
-	options: {
-		bump: false, //this is set to true by the rel task on the first run
-		changelog: true, //default: false
-		// Gets set by grunt-shared-config
-		changelogText: '', //default: '### <%= version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
-		// file: 'component.json', //default: package.json
-		// add: false, //default: true
-		// commit: false, //default: true
-		// tag: false, //default: true
-		// push: false, //default: true
-		// pushTags: false, //default: true
-		// npm: false, //default: true
-		// npmtag: true, //default: no tag
-		// indentation: '\t', //default: '  ' (two spaces)
-		// folder: 'folder/to/publish/to/npm', //default project root
-		tagName: 'v<%= version %>', //default: '<%= version %>'
-		commitMessage: '-- v<%= version %> RELEASE --', //default: 'release <%= version %>'
-		// tagMessage: 'tagging version <%= version %>', //default: 'Version <%= version %>',
-		// beforeBump: [], // optional grunt tasks to run before file versions are bumped
-		// afterBump: [], // optional grunt tasks to run after file versions are bumped
-		// beforeRelease: [], // optional grunt tasks to run after release version is bumped up but before release is packaged
-		// afterRelease: [], // optional grunt tasks to run after release is packaged
-		// github: {
-		// 	repo: 'geddski/grunt-release', //put your user/repo here
-		// 	usernameVar: 'GITHUB_USERNAME', //ENVIRONMENT VARIABLE that contains Github username
-		// 	passwordVar: 'GITHUB_PASSWORD' //ENVIRONMENT VARIABLE that contains Github password
-		// }
+'use strict';
+
+var _ = require( 'underscore' );
+
+module.exports = function( grunt ) {
+	var pkg = grunt.file.readJSON( 'package.json' );
+
+	var noWrite = grunt.option( 'no-write' );
+	var gruntDebug = grunt.option( 'debug' );
+
+	grunt.registerTask(
+		'_logPublishDisabled',
+		'internal task',
+		function() {
+			if ( !!pkg.private ) {
+				grunt.log.writeln( 'Package is private in package.json. Running grunt release will not publish it.' );
+			}
+		}
+	);
+
+	var afterBumpArr = [];
+	if ( !noWrite ) {
+		afterBumpArr.push( 'jsdoc:dist' );
 	}
+
+	var filesToStageArr = _.filter( [
+		'docs/'
+	], function( f ) {
+		return grunt.file.exists( f );
+	} );
+
+	return {
+		options: {
+			silent: false,
+			bump: true,
+			changelog: true,
+			add: true,
+			noVerify: true,
+
+			commit: !gruntDebug,
+			tag: !gruntDebug,
+			push: !gruntDebug,
+			pushTags: !gruntDebug,
+			npm: !pkg.private && !gruntDebug,
+
+			commitMessage: '-- v<%= version %> RELEASE --',
+			tagName: 'v<%= version %>',
+			changelogText: '# v<%= version %> - **<%= grunt.template.today("yyyy-mm-dd") %>**\n',
+
+			afterBump: afterBumpArr,
+			beforeRelease: [ '_logPublishDisabled', 'clean', 'babel' ],
+			filesToStage: filesToStageArr
+		}
+	};
 };

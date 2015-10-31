@@ -14,7 +14,7 @@
         - [default](#default)
         - [o-* tasks](#o--tasks)
     - [hooks](#hooks)
-    - [rel:version|major|minor|patch](#relversion|major|minor|patch)
+    - [release:version|major|minor|patch](#releaseversion|major|minor|patch)
 - [Other Tasks](#other-tasks)
     - [audit](#audit)
     - [lint](#lint)
@@ -69,9 +69,6 @@ module.exports = function( grunt ) {
          // Turn on es6 => es5 transpile
         .enableES6()
 
-        // Turn on npm publishing when the rel task is run
-        .enableNpmPublish()
-
         // add more files in which to search for TODOs
         // during the grunt TODO task
         .addTodo([ 'bin/*.sh' ])
@@ -121,14 +118,14 @@ These are very similar to the default task, however they are optimized to focus 
 
 Running this task will install two git hooks in your repo's `./.git/hooks/` directory: `pre-push`, and `post-commit`.
 
-<a name="relversion|major|minor|patch"></a>
-## rel:version|major|minor|patch
+<a name="releaseversion|major|minor|patch"></a>
+## release:version|major|minor|patch
 
 Perform a release of the module using [grunt-release](https://github.com/geddski/grunt-release).
 
-Before doing so, this task runs babel to compile es6 if enabled for your repo, and generates jsdoc to docs/ rather than docs.ignore so that your jsdocs get pushed to git and published to npm.
+Before doing so, this task runs babel to compile es6 if enabled for your repo, and generates, stages, and commits jsdoc to `docs/` rather than `docs.ignore/` so that your versioned documentation get pushed to git and published to npm.
 
-If your repo contains a file called changes.md, as part of this task it will be read in and its contents included in the update to the changelog. This is a great way to track your changes as you work, and automate the step of updating your changelog when you do a release.
+Your CHANGELOG.md will be updated to include a header at the top of the file with the release version and date. This lets you keep a running list of feature changes as you work, and not have to worry about remembering to associate the changes with a release in the CHANGELOG.
 
 <a name="other-tasks"></a>
 # Other Tasks
