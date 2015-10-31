@@ -1,3 +1,4 @@
+# v0.2.0 - **2015-10-31**
 - Upgrade grunt release to lzilioli's fork which allows for staging files, and enables removal of lots of complexity from this repo.
 - Remove the rel task in favor of the new and improved release task.
 - Remove `enableNpmPublish()` method and instead rely on presence or absence of `private: true` in the module's package.json.
