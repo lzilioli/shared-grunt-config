@@ -1,41 +1,35 @@
 'use strict';
 
 var path = require( 'path' );
+var extend = require( 'extend' );
 module.exports = function( grunt ) {
 
-	var rcPath = grunt.file.exists( '.jscsrc' ) ? '.jscsrc' : path.join( __dirname, '../../.jscsrc' );
-
-	var files = {
-		src: [ '<%= vars.paths.es6 %>', '<%= vars.paths.es6Ignore %>' ]
+	var jscsConfig = {
+		files: {
+			src: [ '<%= paths.js %>' ]
+		},
+		options: {
+			config: path.join( __dirname, '../../.jscsrc' ),
+			reporter: require( 'jscs-stylish' ).path,
+			esnext: true
+		}
 	};
 
-	return {
+	var lintConfig = extend( true, {
 		options: {
-			reporter: require( 'jscs-stylish' ).path
-		},
-		act: {
-			files: files,
-			options: {
-				config: rcPath,
-				esnext: true,
-				force: true,
-				fix: true
-			}
-		},
-		strict: {
-			files: files,
-			options: {
-				config: rcPath,
-				esnext: true
-			}
-		},
-		lax: {
-			files: files,
-			options: {
-				config: rcPath,
-				esnext: true,
-				force: true
-			}
+			force: false,
+			fix: false
 		}
+	}, jscsConfig );
+	var fixConfig = extend( true, {
+		options: {
+			force: true,
+			fix: true
+		}
+	}, jscsConfig );
+
+	return {
+		lint: lintConfig,
+		fix: fixConfig
 	};
 };

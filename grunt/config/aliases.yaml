@@ -1,8 +1,7 @@
 default:
   description: 'Default task for grunt. Spits out some info about your JS then kicks off a watch.'
   tasks:
-    - 'lint-lax' # let this run in case babel in preabmle fails, since the force flag causes babel to suppress its output
-    - '_startup'
+    - 'clean'
     - 'audit'
     - 'watch:default'
 
@@ -10,9 +9,9 @@ default:
 # Shortcuts
 ############################
 jsb:
-  description: 'Alias for jsbeautifier/jscs.'
+  description: 'Alias for jscs.'
   tasks:
-    - 'beautify'
+    - 'jscs:fix'
 
 ############################
 # Tasks for Focusing on a particular task
@@ -20,111 +19,49 @@ jsb:
 o-lint:
   description: 'Watch files and run tasks specific to linting.'
   tasks:
-    - '_startup'
-    - 'lint-lax'
+    - 'clean'
     - 'watch:_lint_optimized'
 
 o-docs:
   description: 'Watch files and run tasks specific to writing documentation.'
   tasks:
-    - '_startup'
+    - 'clean'
     - 'jsdoc:dev'
     - 'watch:_docs_optimized'
-
-o-test:
-  description: 'Watch files and run tasks specific to testing.'
-  tasks:
-    - '_startup'
-    - 'watch:_test_optimized'
 
 ############################
 # Helper tasks
 ############################
-
-beautify:
-  description: 'Beautify the JS. (jsbeautifier,jscs)'
-  tasks:
-    - 'jsbeautifier:act'
-    - 'jscs:act'
-
 lint:
   description: 'Make sure the JS checks out.'
   tasks:
-    - 'jsbeautifier:strict'
-    - 'jshint:strict'
-    - 'jshint:test-strict'
-    - 'jscs:strict'
-
-lint-lax:
-  description: 'Lax version of the lint task.'
-  tasks:
-    - 'jshint:lax'
-    - 'jshint:test-lax'
-    - 'jscs:lax'
-    # - 'jsbeautifier:lax' # no way to lint and have this task succeed on error :(
+    - 'jshint'
+    - 'jscs:lint'
 
 audit:
 - 'todo'
 - 'jsinspect'
 
-test:
-- '_startup'
-- 'shell:test'
-
-####################################
-# Tasks called via git and npm hooks
-####################################
-
-# The following hooks will allow the user to commit JS that fails linting,
-# however will not permit them to push code with jshint issues.
-
-pre-push:
-  description: 'Ensure that there are no build or workflow-breaking issues.'
-  tasks:
-    - 'test'
-    - 'lint'
-
-post-commit:
-  description: 'Inform the dev about the current state of the branch. This will spit out jshint errors, but not fail if present.'
-  tasks:
-    - 'audit'
-    - 'lint-lax'
-
 ############################
 # Internal tasks
 ############################
-_startup:
-  tasks:
-    - 'clean'
-    - 'babel'
-
 #---------------------------
 # Watch Helpers
 #---------------------------
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_on_watch:
-  - 'babel'
-  - 'beautify'
-  - 'lint'
-  - 'shell:test_no_coverage'
+  - 'jscs:fix'
+  - 'jshint'
   - 'jsdoc:dev'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_lint_on_watch:
-  - 'beautify'
-  - 'lint'
-  - 'babel'
-
-# if you rename this task, you need to update the string in grunt/config/watch.js
-_js_o_test_on_watch:
-  - 'babel'
-  - 'shell:test'
-  - 'beautify'
+  - 'jscs:fix'
+  - 'jshint'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_docs_on_watch:
+  - 'jscs:fix'
   - 'jsdoc:dev'
-  - 'beautify'
-  - 'lint-lax'
-  - 'babel'
+  - 'jshint'

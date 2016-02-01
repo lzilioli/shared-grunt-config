@@ -5,22 +5,20 @@
 module.exports = function( grunt ) {
 	return {
 		options: {
-			configure: '<%= sharedConfig.root %>/.jsdocrc',
-			template: '<%= sharedConfig.root %>/node_modules/minami',
+			configure: '<%= sharedConfigRoot %>/.jsdocrc',
+			template: '<%= sharedConfigRoot %>/node_modules/minami',
 			ignoreWarnings: !grunt.option( 'w-jsd' )
 		},
 		dev: {
-			jsdoc: '<%= sharedConfig.root %>/node_modules/.bin/jsdoc',
-			src: '<%= vars.paths.jsdoc %>',
+			src: '<%= paths.jsdoc %>',
 			options: {
-				destination: '<%= sharedConfig.curRepo %>/docs.ignore'
+				destination: 'docs.ignore'
 			}
 		},
 		dist: {
-			jsdoc: '<%= sharedConfig.root %>/node_modules/.bin/jsdoc',
-			src: '<%= vars.paths.jsdoc %>',
+			src: '<%= paths.jsdoc %>',
 			options: {
-				destination: '<%= sharedConfig.curRepo %>/docs'
+				destination: 'docs'
 			}
 		}
 	};

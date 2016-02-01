@@ -1,7 +1,21 @@
+#!/bin/bash
+
+failIfChanges(){
+	if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+		# Uncommitted changes
+		echo $1
+		exit 1
+	fi
+}
+
 which grunt > /dev/null
 if [ $? -eq 0 ]
 then
-	grunt pre-push
+	failIfChanges 'The pre-push task runs grunt tasks which could modify your local repository. Please do not push code with uncommitted changes.'
+	# Working directory clean
+	grunt jsb
+	failIfChanges 'The grunt jsb task generated local changes. Please review and commit them before pushing.'
+	grunt lint
 else
 	echo "You need grunt installed. npm install -g grunt-cli && npm install"
 fi

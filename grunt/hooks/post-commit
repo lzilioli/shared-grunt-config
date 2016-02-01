@@ -1,7 +1,7 @@
 which grunt > /dev/null
 if [ $? -eq 0 ]
 then
-	grunt post-commit
+	grunt audit lint --force
 else
 	echo "You need grunt installed. npm install -g grunt-cli && npm install"
 fi

@@ -1,4 +1,4 @@
 .git*
-docs/
 coverage/
 .DS_Store
+*.ignore

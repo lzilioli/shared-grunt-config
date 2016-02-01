@@ -7,7 +7,6 @@ module.exports = function( grunt ) {
 	var fs = require( 'fs' );
 	var exec = require( 'child_process' ).exec;
 	var prompt = require( 'prompt' );
-	var _ = require( 'underscore' );
 	var path = require( 'path' );
 
 	var done; // async
@@ -36,6 +35,7 @@ module.exports = function( grunt ) {
 		getYesNoResponse(
 			'\nDo you want to install this hook?'.yellow,
 			function() {
+
 				// The user said yes! Install the hook
 				// TODO: extend to allow the user to specify the type of hook if they say no
 				installHook( hookConfig.hookType, hookConfig.hookType, hookConfig.name, nextQuestion );
@@ -52,8 +52,10 @@ module.exports = function( grunt ) {
 		if ( !fs.existsSync( hookToCopy ) ) {
 			grunt.fail.fatal( 'No file found at ' + hookToCopy );
 		}
+
 		// If there is already that type of hook installed
 		if ( fs.existsSync( './' + whereToPutIt ) ) {
+
 			// Ask if the user wants to overwrite the existing hook
 			getYesNoResponse( [
 					'A hook already exists at',
@@ -61,11 +63,13 @@ module.exports = function( grunt ) {
 					'Do you wish to overwrite it?'
 				].join( ' ' ).red,
 				function() {
+
 					// The user said yes. Overwrite the existing hook.
 					actuallyInstallHook( hookToCopy, whereToPutIt, sourceCanonicalName );
 					cb();
 				},
 				function() {
+
 					// The user said no, tell they we're skipping the hook and continue
 					grunt.log.writeln( [
 						'Skipping install of ', sourceCanonicalName, ' hook in ', whereToPutIt
@@ -75,6 +79,7 @@ module.exports = function( grunt ) {
 			);
 
 		} else {
+
 			// The file didn't exist, perform the copy and continue
 			grunt.log.writeln( hookToCopy, whereToPutIt, sourceCanonicalName );
 			actuallyInstallHook( hookToCopy, whereToPutIt, sourceCanonicalName );
@@ -115,9 +120,9 @@ module.exports = function( grunt ) {
 				var yesOpts = [ 'yes', 'y' ];
 				var noOpts = [ 'no', 'n' ];
 				var response = result[ 'Y/N?' ].toLowerCase().trim();
-				if ( _.contains( yesOpts, response ) ) {
+				if ( yesOpts.indexOf( response ) !== -1 ) {
 					yesCb();
-				} else if ( _.contains( noOpts, response ) ) {
+				} else if ( noOpts.indexOf( response ) !== -1 ) {
 					noCb();
 				} else {
 					getYesNoResponse( ( 'Unrecognized response: ' + response ), yesCb, noCb );
@@ -140,8 +145,10 @@ module.exports = function( grunt ) {
 		hooks = task.data.options.hooks;
 		noPrompt = grunt.option( 'no-prompt' );
 		done = this.async();
+
 		// Start the prompt.
 		prompt.start();
+
 		// Start the question chain.
 		nextQuestion();
 	} );

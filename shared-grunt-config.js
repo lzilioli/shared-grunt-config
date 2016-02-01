@@ -1,7 +1,6 @@
 'use strict';
 
-var _ = require( 'underscore' );
-var fs = require( 'fs' );
+var _ = require( 'lodash' );
 
 /* istanbul ignore next */
 module.exports = function( repoRoot, grunt ) {
@@ -12,39 +11,20 @@ module.exports = function( repoRoot, grunt ) {
 	init.apply( this, arguments );
 
 	// wrap the jsdoc task
-	var isJsDocEnabled = false;
 	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
 	grunt.config( '_jsdoc', grunt.config( 'jsdoc' ) );
 	grunt.registerTask(
 		'jsdoc',
 		'Wrapper for jsdoc task that incorporates logic for shared-grunt-config.',
 		function( target ) {
-			if ( target && isJsDocEnabled ) {
+			if ( target ) {
 				grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
-			} else if ( !target && isJsDocEnabled ) {
-				grunt.fail.fatal( 'jsdoc task must be run with a target {dev,dist}. You should generally rely on the watch, o-docs, or pre-release tasks for purposes of generating jsdoc.' );
 			} else {
-				grunt.log.writeln( 'jsdoc task not enabled for this repo.' );
-				grunt.log.writeln( 'To enable jsdoc invoke enableJsdoc() on the object returned from shared-grunt-config.' );
-			}
-		}
-	);
-
-	// wrap the babel task
-	var isES6Enabled = false;
-	grunt.task.renameTask( 'babel', '_babel' );
-	grunt.config( '_babel', grunt.config( 'babel' ) );
-	grunt.registerTask( 'babel',
-		'Wrapper for babel task that incorporates logic for shared-grunt-config.',
-		function( target ) {
-			if ( isES6Enabled ) {
-				grunt.task.run( [ '_babel' + ( target ? ':' + target : '' ) ] );
-			} else {
-				grunt.log.writeln( 'ES6 modules are not being transpiled.' );
-				grunt.log.writeln( 'To enable this feature, invoke `enableES6()`' );
-				grunt.log.writeln( 'on the object returned by shared-grunt-config.' );
-				grunt.log.writeln( 'If you do not want this feature, you may safely' );
-				grunt.log.writeln( 'ignore this message.' );
+				grunt.fail.fatal( [
+					'jsdoc task must be run with a target {dev,dist}. You should',
+					'generally rely on the watch, o-docs, or pre-release tasks',
+					'for purposes of generating jsdoc.'
+				].join( ' ' ) );
 			}
 		}
 	);
@@ -56,18 +36,11 @@ module.exports = function( repoRoot, grunt ) {
 	} );
 
 	var SHAREDCFG = {
-		addJs: getMergeFn( 'js' ),
+		addClientJs: getMergeFn( 'clientJs' ),
+		addServerJs: getMergeFn( 'serverJs' ),
 		addJsdoc: getMergeFn( 'jsdoc' ),
 		addTodo: getMergeFn( 'todo' ),
-		addTest: getMergeFn( 'test' ),
-		enableJsdoc: function() {
-			isJsDocEnabled = true;
-			return SHAREDCFG;
-		},
-		enableES6: function() {
-			isES6Enabled = true;
-			return SHAREDCFG;
-		}
+		addClean: getMergeFn( 'clean' )
 	};
 
 	return SHAREDCFG;
@@ -81,49 +54,43 @@ module.exports = function( repoRoot, grunt ) {
 
 	function mergeConfig( key, value ) {
 		if ( !_.isArray( value ) ) {
-			throw new Error( 'Argument to add' + capFirstLetter( key ) + ' must be an array.' );
+			throw new Error( 'Argument to add' + key.charAt( 0 ).toUpperCase() + key.slice( 1 ) + ' must be an array.' );
 		}
-		var curConfig = grunt.config.get( 'vars.paths.' + key );
+		var curConfig = grunt.config.get( 'paths.' + key );
 		curConfig.push( value );
-		grunt.config.set( 'vars.paths.' + key, _.flatten( curConfig ) );
-	}
-
-	function capFirstLetter( forStr ) {
-		return forStr.charAt( 0 ).toUpperCase() + forStr.slice( 1 );
+		grunt.config.set( 'paths.' + key, _.flatten( curConfig ) );
 	}
 
 };
 
-/* istanbul ignore next */
 function init( repoRoot, grunt ) {
 
 	var path = require( 'path' );
 
+	// Load grunt tasks while the grunt base directory is this shared repo
 	grunt.file.setBase( __dirname );
-
-	if ( fs.existsSync( 'grunt/tasks' ) && fs.statSync( 'grunt/tasks' ).isDirectory() ) {
-		grunt.loadTasks( 'grunt/tasks' );
-	}
-
+	grunt.loadTasks( 'grunt/tasks' );
 	require( 'load-grunt-tasks' )( grunt );
 
+	// Set grunt base back to the consuming repo
 	grunt.file.setBase( repoRoot );
 
+	// Load the configs
 	require( 'load-grunt-config' )( grunt, {
+
 		// path to task.js files
 		configPath: path.join( __dirname, '/grunt/config' ),
+
 		// data passed into config. Can use with <%= {something within data} %>
 		data: {
-			'sharedConfig': {
-				root: __dirname,
-				curRepo: repoRoot
-			}
+			'sharedConfigRoot': __dirname
 		},
+
 		// can optionally pass options to load-grunt-tasks.
 		// If you set to false, it will disable auto loading tasks.
 		loadGruntTasks: false, // we do this ourselves above
 		// can post process config object before it gets passed to grunt
-		postProcess: function( /* config */) {}
+		postProcess: function( /* config */ ) {}
 	} );
 
 }

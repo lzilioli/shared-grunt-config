@@ -9,8 +9,7 @@ module.exports = {
 			reporter: 'default'
 		},
 		src: [
-			// NOTE jsinspect chokes on some es6 syntax, so we currently don't run this task against the es6 code
-			'<%= vars.paths.js %>'
+			'<%= paths.js %>'
 		]
 	}
 };

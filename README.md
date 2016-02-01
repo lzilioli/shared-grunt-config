@@ -30,9 +30,7 @@
 <a name="description"></a>
 # Description
 
-This repository exposes grunt configuration that can be shared between multiple modules. The tasks and their configuration are optimized for development of a nodejs npm package.
-
-**NOTE:** If you wish to contribute to this repo, please see [Branching Strategy](#branching-strategy).
+This repository exposes grunt configuration that can be shared between multiple modules.
 
 <a name="usage"></a>
 # Usage
@@ -63,25 +61,20 @@ Each method is chain-able, and is explained below:
 module.exports = function( grunt ) {
     require( 'shared-grunt-config' )( __dirname, grunt )
 
-        // Turn on jsdoc
-        .enableJsdoc()
-
-         // Turn on es6 => es5 transpile
-        .enableES6()
-
         // add more files in which to search for TODOs
         // during the grunt TODO task
         .addTodo([ 'bin/*.sh' ])
 
         // add files for js stuff like linting, beautifying, etc.
-        // will also be used for the todo task
-        .addJs([ 'assets/scripts/**/*.js' ])
-
-        // add test files to watch for the o-test task
-        .addTest([ 'tests/**' ])
+        // will also be used for the todo and jsdoc task
+        .addClientJs([ 'client/**/*.js' ])
+        .addServerJs([ 'helpers/*.js' ])
 
         // add more jsdoc files that get read when generating jsdoc
-        .addJsdoc([ 'dist/*.js' ]);
+        .addJsdoc([ 'server/*.js' ])
+
+        // Add files to be cleaned by grunt clean
+        .addClean([ 'client-dist/' ]);
 };
 ```
 

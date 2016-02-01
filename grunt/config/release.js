@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require( 'underscore' );
+var _ = require( 'lodash' );
 
 module.exports = function( grunt ) {
 	var pkg = grunt.file.readJSON( 'package.json' );
@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 		'internal task',
 		function() {
 			if ( !!pkg.private ) {
-				grunt.log.writeln( 'Package is private in package.json. Running grunt release will not publish it.' );
+				grunt.log.writeln( 'Package is private in package.json. Running grunt release will not publish it to npm.' );
 			}
 		}
 	);
@@ -48,7 +48,7 @@ module.exports = function( grunt ) {
 			changelogText: '# v<%= version %> - **<%= grunt.template.today("yyyy-mm-dd") %>**\n',
 
 			afterBump: afterBumpArr,
-			beforeRelease: [ '_logPublishDisabled', 'clean', 'babel' ],
+			beforeRelease: [ '_logPublishDisabled', 'clean' ],
 			filesToStage: filesToStageArr
 		}
 	};

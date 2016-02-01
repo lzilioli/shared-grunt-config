@@ -64,6 +64,7 @@
     },
     "requirePaddingNewLinesBeforeLineComments": true,
     "validateLineBreaks": "LF",
+    "validateIndentation": "\t",
 
     "disallowKeywords": [ "with" ],
     "disallowKeywordsOnNewLine": [ "else" ],

@@ -1,45 +1,23 @@
 'use strict';
 
 var path = require( 'path' );
-var extend = require( 'extend' );
-
-var files = {
-	src: [ '<%= vars.paths.js %>', '<%= vars.paths.es6 %>', '<%= vars.paths.es6Ignore %>' ]
-};
-var filesTest = {
-	src: [ '<%= vars.paths.tests %>' ]
-};
 
 module.exports = function( grunt ) {
-
-	var rcPath = grunt.file.exists( '.jshintrc' ) ? '.jshintrc' : path.join( __dirname, '../../.jshintrc' );
-	var testRc = grunt.file.readJSON( path.join( __dirname, '../../.test-jshintrc' ) );
-
 	return {
-		options: extend( {
-			reporter: require( 'jshint-stylish' ),
-		}, grunt.file.readJSON( rcPath ) ),
-		strict: {
-			files: files,
-			options: {
-				force: false
+		options: {
+			reporter: require( 'jshint-stylish' )
+		},
+		client: {
+			options: grunt.file.readJSON( path.join( __dirname, '../../.jshintrc-client' ) ),
+			files: {
+				src: [ '<%= paths.clientJs %>' ]
 			}
 		},
-		lax: {
-			files: files,
-			options: {
-				force: true
+		server: {
+			options: grunt.file.readJSON( path.join( __dirname, '../../.jshintrc-server' ) ),
+			files: {
+				src: [ '<%= paths.serverJs %>' ]
 			}
-		},
-		'test-strict': {
-			files: filesTest,
-			options: testRc
-		},
-		'test-lax': {
-			files: filesTest,
-			options: extend( {
-				force: true
-			}, testRc )
 		}
 	};
 };
