@@ -5,7 +5,7 @@ module.exports = {
 		options: {
 			onDone: 'Thanks for being a good citizen and using the hooks.',
 			hookDir: path.join( __dirname, '../hooks' ),
-			hooks: [ {
+			hooks: [{
 				name: 'post-commit',
 				hookType: 'post-commit',
 				description: [
@@ -16,7 +16,7 @@ module.exports = {
 				name: 'pre-push',
 				hookType: 'pre-push',
 				description: 'ensure that there are no build or workflow-breaking issues.'
-			} ]
+			}]
 		}
 	}
 };

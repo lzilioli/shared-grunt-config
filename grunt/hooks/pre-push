@@ -13,8 +13,6 @@ if [ $? -eq 0 ]
 then
 	failIfChanges 'The pre-push task runs grunt tasks which could modify your local repository. Please do not push code with uncommitted changes.'
 	# Working directory clean
-	grunt jsb
-	failIfChanges 'The grunt jsb task generated local changes. Please review and commit them before pushing.'
 	grunt lint
 else
 	echo "You need grunt installed. npm install -g grunt-cli && npm install"

@@ -12,7 +12,7 @@ module.exports = function( grunt ) {
 		'_logPublishDisabled',
 		'internal task',
 		function() {
-			if ( !!pkg.private ) {
+			if ( pkg.private ) {
 				grunt.log.writeln( 'Package is private in package.json. Running grunt release will not publish it to npm.' );
 			}
 		}
@@ -48,7 +48,7 @@ module.exports = function( grunt ) {
 			changelogText: '# v<%= version %> - **<%= grunt.template.today("yyyy-mm-dd") %>**\n',
 
 			afterBump: afterBumpArr,
-			beforeRelease: [ '_logPublishDisabled', 'clean' ],
+			beforeRelease: ['_logPublishDisabled', 'clean'],
 			filesToStage: filesToStageArr
 		}
 	};

@@ -1,5 +1,5 @@
 module.exports = {
 	todo: {
-		src: [ '<%= paths.todo %>' ]
+		src: ['<%= paths.todo %>']
 	}
 };

@@ -3,5 +3,7 @@
 /* istanbul ignore next */
 module.exports = function( grunt ) {
 	require( './' )( __dirname, grunt )
-		.addTodo( [ 'grunt/config/aliases.yaml' ] );
+		// silence the task complaining about no files in this repo
+		.addClientJs( ['empty.js'] )
+		.addTodo( ['grunt/config/aliases.yaml'] );
 };

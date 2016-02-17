@@ -1,3 +1,6 @@
+/* eslint prefer-template: 0 */
+/* eslint no-empty-function: 0 */
+/* eslint prefer-rest-params: 0 */
 'use strict';
 
 var _ = require( 'lodash' );
@@ -18,7 +21,7 @@ module.exports = function( repoRoot, grunt ) {
 		'Wrapper for jsdoc task that incorporates logic for shared-grunt-config.',
 		function( target ) {
 			if ( target ) {
-				grunt.task.run( [ '_jsdoc' + ( target ? ':' + target : '' ) ] );
+				grunt.task.run( ['_jsdoc' + ( target ? ':' + target : '' )] );
 			} else {
 				grunt.fail.fatal( [
 					'jsdoc task must be run with a target {dev,dist}. You should',
@@ -31,8 +34,8 @@ module.exports = function( repoRoot, grunt ) {
 
 	// Helpers for debugging
 	grunt.registerTask( 'logo', console.log.bind( undefined, grunt ) );
-	grunt.registerTask( 'cfg', function() {
-		console.log( grunt.config.getRaw() );
+	grunt.registerTask( 'cfg', function( pth ) {
+		console.log( grunt.config.get( pth ) );
 	} );
 
 	var SHAREDCFG = {

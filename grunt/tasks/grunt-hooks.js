@@ -1,3 +1,8 @@
+/* eslint prefer-template: 0 */
+/* eslint no-sync: 0 */
+/* eslint no-shadow: 0 */
+/* eslint valid-jsdoc: 0 */
+/* eslint consistent-this: 0 */
 'use strict';
 
 module.exports = function( grunt ) {
@@ -17,7 +22,7 @@ module.exports = function( grunt ) {
 
 	function nextQuestion() {
 		if ( !hooks.length ) {
-			if ( !!options.onDone ) {
+			if ( options.onDone ) {
 				grunt.log.writeln( '' );
 				grunt.log.writeln( options.onDone.blue );
 			}
@@ -31,7 +36,7 @@ module.exports = function( grunt ) {
 	function promptHook( hookConfig ) {
 		grunt.log.writeln( hookConfig.name.yellow );
 		grunt.log.writeln( getHeaderFor( hookConfig.name ).yellow );
-		grunt.log.writeln( [ 'This hook will', hookConfig.description ].join( ' ' ).yellow );
+		grunt.log.writeln( ['This hook will', hookConfig.description].join( ' ' ).yellow );
 		getYesNoResponse(
 			'\nDo you want to install this hook?'.yellow,
 			function() {
@@ -58,10 +63,10 @@ module.exports = function( grunt ) {
 
 			// Ask if the user wants to overwrite the existing hook
 			getYesNoResponse( [
-					'A hook already exists at',
-					whereToPutIt + '.',
-					'Do you wish to overwrite it?'
-				].join( ' ' ).red,
+				'A hook already exists at',
+				whereToPutIt + '.',
+				'Do you wish to overwrite it?'
+			].join( ' ' ).red,
 				function() {
 
 					// The user said yes. Overwrite the existing hook.
@@ -113,12 +118,12 @@ module.exports = function( grunt ) {
 			return;
 		}
 		grunt.log.writeln( promptStr );
-		prompt.get( [ 'Y/N?' ], function( err, result ) {
+		prompt.get( ['Y/N?'], function( err, result ) {
 			if ( err ) {
 				grunt.fail.fatal( 'An error occured: ', err );
 			} else {
-				var yesOpts = [ 'yes', 'y' ];
-				var noOpts = [ 'no', 'n' ];
+				var yesOpts = ['yes', 'y'];
+				var noOpts = ['no', 'n'];
 				var response = result[ 'Y/N?' ].toLowerCase().trim();
 				if ( yesOpts.indexOf( response ) !== -1 ) {
 					yesCb();

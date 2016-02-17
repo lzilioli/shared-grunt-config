@@ -9,9 +9,16 @@ default:
 # Shortcuts
 ############################
 jsb:
-  description: 'Alias for jscs.'
+  description: 'Alias for beautifying files.'
   tasks:
-    - 'jscs:fix'
+    - 'eslint:client'
+    - 'eslint:server'
+
+lint:
+  description: 'Make sure the JS checks out.'
+  tasks:
+    - 'eslint:client-no-fix'
+    - 'eslint:server-no-fix'
 
 ############################
 # Tasks for Focusing on a particular task
@@ -32,11 +39,6 @@ o-docs:
 ############################
 # Helper tasks
 ############################
-lint:
-  description: 'Make sure the JS checks out.'
-  tasks:
-    - 'jshint'
-    - 'jscs:lint'
 
 audit:
 - 'todo'
@@ -51,17 +53,17 @@ audit:
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_on_watch:
-  - 'jscs:fix'
-  - 'jshint'
+  - 'jsb'
+  - 'lint'
   - 'jsdoc:dev'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_lint_on_watch:
-  - 'jscs:fix'
-  - 'jshint'
+  - 'jsb'
+  - 'lint'
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_docs_on_watch:
-  - 'jscs:fix'
+  - 'jsb'
   - 'jsdoc:dev'
-  - 'jshint'
+  - 'lint'
