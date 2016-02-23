@@ -1,5 +1,4 @@
 'use strict';
-
 // https://www.npmjs.com/package/grunt-jsdoc
 
 module.exports = function( grunt ) {
