@@ -19,6 +19,7 @@
     "grunt-release": "lzilioli/grunt-release#useful-fork",
     "grunt-todo": "^0.5.0",
     "jscs-stylish": "^0.3.1",
+    "jsdoc-babel": "^0.1.0",
     "jshint-stylish": "^2.1.0",
     "load-grunt-config": "^0.19.1",
     "load-grunt-tasks": "^3.1.0",
