@@ -1,6 +1,7 @@
 /* eslint prefer-template: 0 */
 /* eslint no-empty-function: 0 */
 /* eslint prefer-rest-params: 0 */
+/* eslint no-console: 1 */
 'use strict';
 
 var _ = require( 'lodash' );
@@ -43,7 +44,22 @@ module.exports = function( repoRoot, grunt ) {
 		addServerJs: getMergeFn( 'serverJs' ),
 		addJsdoc: getMergeFn( 'jsdoc' ),
 		addTodo: getMergeFn( 'todo' ),
-		addClean: getMergeFn( 'clean' )
+		addClean: getMergeFn( 'clean' ),
+		addEslintRules: function( newRules ){
+			var rawConfig = grunt.config.getRaw( 'eslint' );
+			_.each( rawConfig, function( config, target ){
+				var rules = _.get( config, 'options.rules', false );
+				if( !rules ) {
+					return;
+				}
+				_.each( newRules, function( setting, rule ){
+					config.options.rules[ rule ] = setting;
+				} );
+				rawConfig[ target ] = config; // TODO is this needed?
+			} );
+			grunt.config.set( 'eslint', rawConfig );
+			return SHAREDCFG;
+		}
 	};
 
 	return SHAREDCFG;
