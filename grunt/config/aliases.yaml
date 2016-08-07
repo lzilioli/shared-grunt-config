@@ -64,6 +64,6 @@ _js_o_lint_on_watch:
 
 # if you rename this task, you need to update the string in grunt/config/watch.js
 _js_o_docs_on_watch:
-  - 'jsb'
   - 'jsdoc:dev'
+  - 'jsb'
   - 'lint'

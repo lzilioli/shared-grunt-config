@@ -1,6 +1,6 @@
 'use strict';
 
-var theConfig = {
+module.exports = {
 	todo: [
 		'<%= paths.js %>'
 	],
@@ -9,8 +9,11 @@ var theConfig = {
 		'README.md',
 		'package.json'
 	],
-	clientJs: [],
+	clientJs: [
+		'<%= sharedConfigRoot %>/empty.js %>'
+	],
 	serverJs: [
+		'<%= sharedConfigRoot %>/empty.js %>',
 		'*.js',
 		'grunt/**/*.js',
 		'lib/**/*.js'
@@ -23,5 +26,3 @@ var theConfig = {
 		'docs.ignore'
 	]
 };
-
-module.exports = theConfig;

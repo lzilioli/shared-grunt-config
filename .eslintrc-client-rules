@@ -190,7 +190,7 @@
         2,
         "never"
     ],
-    "valid-jsdoc": 2,
+    "valid-jsdoc": 0,
     "vars-on-top": 0,
     "wrap-iife": 2,
     "wrap-regex": 2,

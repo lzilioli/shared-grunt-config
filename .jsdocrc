@@ -3,15 +3,11 @@
         "allowUnknownTags": true
     },
     "plugins": [
-        "plugins/markdown",
-        "node_modules/jsdoc-babel"
+        "plugins/markdown"
     ],
     "markdown": {
         "parser": "gfm",
         "tags": ["param"]
-    },
-    "source": {
-    	"includePattern": ".+\\.js(doc)?|.+\\.es6$"
     },
     "templates": {
         "displayName": "",
