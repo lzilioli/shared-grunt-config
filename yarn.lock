@@ -786,14 +786,14 @@ grunt-cli@~1.2.0:
     nopt "~3.0.6"
     resolve "~1.1.0"
 
-grunt-contrib-clean@1.0.0:
+grunt-contrib-clean@lzilioli/grunt-contrib-clean#npm-upgrade:
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-contrib-clean/-/grunt-contrib-clean-1.0.0.tgz#6b2ed94117e2c7ffe32ee04578c96fe4625a9b6d"
+  resolved "https://codeload.github.com/lzilioli/grunt-contrib-clean/tar.gz/030d0b692a5ece917ed6c0406c6d21875d738af7"
   dependencies:
     async "^1.5.2"
     rimraf "^2.5.1"
 
-grunt-contrib-watch@1.0.0:
+grunt-contrib-watch@>=1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/grunt-contrib-watch/-/grunt-contrib-watch-1.0.0.tgz#84a1a7a1d6abd26ed568413496c73133e990018f"
   dependencies:
@@ -802,21 +802,21 @@ grunt-contrib-watch@1.0.0:
     lodash "^3.10.1"
     tiny-lr "^0.2.1"
 
-grunt-eslint@19.0.0:
+grunt-eslint@>=19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/grunt-eslint/-/grunt-eslint-19.0.0.tgz#bb74c379061599cec1f66169def2a89d862d861b"
   dependencies:
     chalk "^1.0.0"
     eslint "^3.0.0"
 
-grunt-jsdoc@2.1.0:
+grunt-jsdoc@>=2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/grunt-jsdoc/-/grunt-jsdoc-2.1.0.tgz#8c2ae5080ca09d18d7adef8797678d46421a3e3a"
   dependencies:
     cross-spawn "^3.0.1"
     jsdoc "^3.4.0"
 
-grunt-jsinspect@2.0.0:
+grunt-jsinspect@>=2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/grunt-jsinspect/-/grunt-jsinspect-2.0.0.tgz#14f89e9c03db12311fe82c7fa811960b4b8683ff"
   dependencies:
@@ -865,14 +865,14 @@ grunt-release@lzilioli/grunt-release#useful-fork-2:
     shelljs "^0.5.1"
     superagent "^1.2.0"
 
-grunt-todo@0.5.0:
+grunt-todo@>=0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/grunt-todo/-/grunt-todo-0.5.0.tgz#769f494e662905229cb59973137348f664c13265"
   dependencies:
     chalk "^1.0.0"
     text-table "^0.2.0"
 
-grunt@1.0.1:
+grunt@>=1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.0.1.tgz#e8778764e944b18f32bb0f10b9078475c9dfb56b"
   dependencies:
