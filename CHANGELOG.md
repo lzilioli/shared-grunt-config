@@ -1,3 +1,4 @@
+# v2.0.1 - **2016-10-16**
 # v2.0.0 - **2016-10-16**
 # v1.0.0 - **2016-02-01**
 - Remove babel. Consuming repos should utilize webpack or their own babel configuration.
