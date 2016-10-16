@@ -1,3 +1,4 @@
+# v2.0.0 - **2016-10-16**
 # v1.0.0 - **2016-02-01**
 - Remove babel. Consuming repos should utilize webpack or their own babel configuration.
 - Remove testing functionality. Consuming repos should utilize their own testing configuration.
