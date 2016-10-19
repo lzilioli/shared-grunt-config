@@ -1,6 +1,6 @@
 {
   "name": "shared-grunt-config",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Shared grunt configuration.",
   "main": "shared-grunt-config.js",
   "author": "Luke Zilioli",
