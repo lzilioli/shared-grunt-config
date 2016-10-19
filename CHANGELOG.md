@@ -1,3 +1,5 @@
+- add descriptions to `logo` and `cfg` tasks
+
 # v3.0.1 - **2016-10-19**
 - switch from npm-upgrade grunt-contrib-clean breanch
 
