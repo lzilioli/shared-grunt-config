@@ -1,3 +1,5 @@
+- add dependency on `@retailmenot/grunt-hooks`, remove own hooks task
+
 # v2.0.1 - **2016-10-16**
 # v2.0.0 - **2016-10-16**
 # v1.0.0 - **2016-02-01**

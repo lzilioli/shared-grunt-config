@@ -86,8 +86,6 @@ function init( repoRoot, grunt ) {
 
 	var path = require( 'path' );
 
-	// Load grunt tasks while the grunt base directory is this shared repo
-	grunt.loadTasks( path.join( __dirname,'grunt/tasks' ) );
 	require( 'load-grunt-tasks' )( grunt );
 
 	// Load the configs
