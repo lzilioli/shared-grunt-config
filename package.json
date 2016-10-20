@@ -11,6 +11,10 @@
     "type": "git",
     "url": "https://github.com/lzilioli/shared-grunt-config"
   },
+  "scripts": {
+    "quality": "grunt audit lint",
+    "prepublish": "npm run quality && grunt clean && grunt jsdoc:dist"
+  },
   "license": "MIT",
   "dependencies": {
     "babel-eslint": "7.0.0",
@@ -32,7 +36,7 @@
     "grunt-eslint": "^19.0.0",
     "grunt-jsdoc": "^2.1.0",
     "grunt-jsinspect": "^2.0.0",
-    "grunt-release": "lzilioli/grunt-release#useful-fork-2",
+    "grunt-release": "^0.14.0",
     "grunt-todo": "^0.5.0"
   },
   "optionalDependencies": {
@@ -43,7 +47,7 @@
     "grunt-eslint": ">=19.0.0",
     "grunt-jsdoc": ">=2.1.0",
     "grunt-jsinspect": ">=2.0.0",
-    "grunt-release": "lzilioli/grunt-release#useful-fork-2",
+    "grunt-release": ">=0.14.0",
     "grunt-todo": ">=0.5.0"
   }
 }
