@@ -97,14 +97,13 @@ the following will happen:
 <a name="o--tasks"></a>
 ### o-* tasks
 
-There are three "optimum" tasks defined:
+There are two "optimized" tasks defined:
 
 - o-lint
 - o-docs
-- o-test
 
 These are very similar to the default task, however they are optimized to focus
-on one of the three things. e.g. the `o-docs` task will watch only files
+on one of the two things. e.g. the `o-docs` task will watch only files
 relevant to generating jsdoc, and will quickly generate jsdoc when files change
 so you can quickly refresh your browser to see how the docs have changed.
 

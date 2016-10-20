@@ -4,10 +4,14 @@
   "description": "Shared grunt configuration.",
   "main": "shared-grunt-config.js",
   "author": "Luke Zilioli",
+  "contributors": [
+    "Luke Zilioli <elzee08@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/lzilioli/shared-grunt-config"
   },
+  "license": "MIT",
   "dependencies": {
     "babel-eslint": "7.0.0",
     "estraverse": "4.2.0",
