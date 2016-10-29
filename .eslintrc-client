@@ -1,0 +1,8 @@
+# vim: set syntax=yaml:
+---
+  extends: {{extendPath}}
+  parser: babel-eslint
+  env:
+    browser: true
+  globals:
+    $: true

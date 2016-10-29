@@ -36,8 +36,19 @@ modules.
 <a name="usage"></a>
 # Usage
 
-```
-bash npm install --save-dev shared-grunt-config
+```bash 
+npm install --save-dev grunt shared-grunt-config
+
+# These tasks come preconfigured with shared-grunt-config. You need to install
+# them as dependencies of your own repo.
+npm install --save-dev @retailmenot/grunt-hooks \
+grunt-contrib-clean \
+grunt-contrib-watch \
+grunt-eslint \
+grunt-jsdoc \
+grunt-jsinspect \
+grunt-release \
+grunt-todo
 ```
 
 <a name="gruntfilejs"></a>
@@ -58,6 +69,10 @@ to the root of your repo.
 with [load-grunt-config](https://github.com/firstandthird/load-grunt-config)
 and merged with the final grunt config object.
 
+TODO In the future, an error will be thrown if the config in `alsoLoadFrom`
+     collides with the config already provided by this repository.
+     (see #7)[https://github.com/lzilioli/shared-grunt-config/issues/7]
+
 
 <a name="recommendation"></a>
 ## Recommendation
@@ -69,11 +84,12 @@ If you use this repo, you will want the following in your `.gitingore` and
 ### .gitignore
 
 ```
-*.ignore
-docs/
 .DS_Store
 node_modules/
 npm-debug.log*
+
+*.ignore
+docs/
 *.log
 ```
 
@@ -83,9 +99,9 @@ npm-debug.log*
 ```
 *.ignore
 !docs/
+Gruntfile.js
 # if you use the alsoLoad from option
 config/grunt/
-Gruntfile.js
 ```
 
 

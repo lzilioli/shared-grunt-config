@@ -2,58 +2,29 @@
 
 var path = require( 'path' );
 
-// TODO enforce 'use-strict' with eslint
-
-module.exports = function( grunt ) {
+module.exports = function() {
 	return {
 		options: {
-			reporter: require( 'jshint-stylish' ),
-			configFile: path.join( __dirname, '../../.eslintrc' )
+			reporter: require( 'jshint-stylish' )
 		},
-		client: {
+		lint: {
 			options: {
-				fix: true,
-				rules: grunt.file.readJSON( path.join( __dirname, '../../.eslintrc-client-rules' ) ),
-				globals: ['$']
+				fix: false
 			},
 			files: [{
 				expand: true,
 				cwd: path.resolve(),
-				src: ['<%= paths.clientJs %>']
+				src: ['<%= paths.js %>']
 			}]
 		},
-		server: {
+		fix: {
 			options: {
-				fix: true,
-				rules: grunt.file.readJSON( path.join( __dirname, '../../.eslintrc-server-rules' ) )
+				fix: true
 			},
 			files: [{
 				expand: true,
 				cwd: path.resolve(),
-				src: ['<%= paths.serverJs %>']
-			}]
-		},
-		'client-no-fix': {
-			options: {
-				fix: false,
-				rules: grunt.file.readJSON( path.join( __dirname, '../../.eslintrc-client-rules' ) ),
-				globals: ['$']
-			},
-			files: [{
-				expand: true,
-				cwd: path.resolve(),
-				src: ['<%= paths.clientJs %>']
-			}]
-		},
-		'server-no-fix': {
-			options: {
-				fix: false,
-				rules: grunt.file.readJSON( path.join( __dirname, '../../.eslintrc-server-rules' ) )
-			},
-			files: [{
-				expand: true,
-				cwd: path.resolve(),
-				src: ['<%= paths.serverJs %>']
+				src: ['<%= paths.js %>']
 			}]
 		}
 	};

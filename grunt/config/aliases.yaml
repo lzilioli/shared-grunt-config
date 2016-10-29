@@ -11,14 +11,12 @@ default:
 jsb:
   description: 'Alias for beautifying files.'
   tasks:
-    - 'eslint:client'
-    - 'eslint:server'
+    - 'eslint:fix'
 
 lint:
   description: 'Make sure the JS checks out.'
   tasks:
-    - 'eslint:client-no-fix'
-    - 'eslint:server-no-fix'
+    - 'eslint:lint'
 
 ############################
 # Tasks for Focusing on a particular task

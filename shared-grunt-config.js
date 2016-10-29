@@ -24,6 +24,18 @@ module.exports = function( repoRoot, grunt, config ) {
 	loadGruntTasks( grunt );
 	grunt.loadTasks( path.join( __dirname, 'grunt/tasks' ) );
 
+	if( !grunt.file.exists( '.eslintrc' ) ) {
+		grunt.task.renameTask( 'eslint', '__THIS_TASK_WILL_FAIL' );
+		grunt.registerTask(
+			'eslint',
+			'Log a message about missing .eslintrc file',
+			function(){
+				grunt.log.warn( 'Your repo is missing an .eslintrc file. Create one or run'.yellow );
+				grunt.log.warn( '  grunt eslinit'.grey );
+			}
+		);
+	}
+
 	var loadPaths = [path.join( __dirname, '/grunt/config' )];
 	if( config.alsoLoadFrom ) {
 		loadPaths.push( config.alsoLoadFrom );
@@ -57,8 +69,7 @@ module.exports = function( repoRoot, grunt, config ) {
 		addTodo: getMergeFn( 'todo' ),
 		addClean: getMergeFn( 'clean' ),
 		addEslintRules: function(){
-			// TODO capture and add to eslintrc during eslinit
-			deprecate( 'addEslintRules is now a noop. Run `grunt eslinit` to initialize eslint.' );
+			deprecate( 'addEslintRules is now a noop. Run `grunt eslinit` to initialize eslint, and then add the rules to the appropriate .eslintrc files' );
 			return SHAREDCFG;
 		}
 	};
