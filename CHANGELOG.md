@@ -1,4 +1,14 @@
 - add descriptions to `logo` and `cfg` tasks
+- add a LICENSE
+- **BREAKING** The way jsdocs are published is changed. They will no longer be
+  committed to the repo. Please see the readme section about the `release` task
+  for more details.
+- **BREAKING** The `shared-grunt-config` still contains configs for eslint,
+  however it does not provide a default ruleset. Your repo must contain its own
+  eslintrc. You can run `grunt eslinit` to interactively initialize your repo.
+- **ENHANCEMENT** Load a directory containing grunt configurations by passing a
+  third argument to `shared-grunt-config`. See the readme for the
+  `alsoLoadFrom` parameter.
 
 # v3.0.1 - **2016-10-19**
 - switch from npm-upgrade grunt-contrib-clean breanch

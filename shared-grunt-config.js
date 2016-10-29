@@ -1,48 +1,59 @@
 /* eslint prefer-template: 0 */
 /* eslint no-empty-function: 0 */
 /* eslint prefer-rest-params: 0 */
-/* eslint no-console: 1 */
 'use strict';
 
 var _ = require( 'lodash' );
+var deprecate = require( 'depd' )( 'shared-grunt-config' );
+var loadGruntTasks = require( 'load-grunt-tasks' );
+var loadGruntConfig = require( 'load-grunt-config' );
+var path = require( 'path' );
 
 /* istanbul ignore next */
-module.exports = function( repoRoot, grunt ) {
+module.exports = function( repoRoot, grunt, config ) {
+
+	var defaults = {
+		// path
+		alsoLoadFrom: false
+	};
+	config = _.defaults( {}, config, defaults );
 
 	// Because the default of false sucks.......
 	grunt.option( 'stack', true );
 
-	init.apply( this, arguments );
+	loadGruntTasks( grunt );
+	grunt.loadTasks( path.join( __dirname, 'grunt/tasks' ) );
 
-	// wrap the jsdoc task
-	grunt.task.renameTask( 'jsdoc', '_jsdoc' );
-	grunt.registerTask(
-		'jsdoc',
-		'Wrapper for jsdoc task that incorporates logic for shared-grunt-config.',
-		function( target ) {
-			if ( target ) {
-				grunt.task.renameTask( '_jsdoc', 'jsdoc' );
-				grunt.task.run( ['jsdoc' + ( target ? ':' + target : '' )] );
-			} else {
-				grunt.fail.fatal( [
-					'jsdoc task must be run with a target {dev,dist}. You should',
-					'generally rely on the watch, o-docs, or pre-release tasks',
-					'for purposes of generating jsdoc.'
-				].join( ' ' ) );
-			}
+	var loadPaths = [path.join( __dirname, '/grunt/config' )];
+	if( config.alsoLoadFrom ) {
+		loadPaths.push( config.alsoLoadFrom );
+	}
+	_.chain( loadPaths )
+	.map( function( configDir, idx ){
+		var loadConfig = {
+			init: false,
+			configPath: configDir,
+			loadGruntTasks: false
+		};
+		if( idx === 0 ) {
+			_.extend( loadConfig, {
+				// data passed into config. Can use with
+				// <%= {something within data} %>
+				data: {
+					'sharedConfigRoot': __dirname
+				}
+			} );
 		}
-	);
-
-	// Helpers for debugging
-	grunt.registerTask( 'logo', 'Log the contents of the grunt config.', console.log.bind( undefined, grunt ) );
-	grunt.registerTask( 'cfg', 'Log the contents of part of the config:<path.in.config>', function( pth ) {
-		console.log( grunt.config.get( pth ) );
-	} );
+		return loadGruntConfig( grunt, loadConfig );
+	} )
+	// TODO look at what is being overwritten on each iteration of the loop
+	.each( grunt.config.merge )
+	.value();
 
 	var SHAREDCFG = {
-		addClientJs: getMergeFn( 'clientJs' ),
-		addServerJs: getMergeFn( 'serverJs' ),
-		addJsdoc: getMergeFn( 'jsdoc' ),
+		addJs: getMergeFn( 'js' ),
+		addClientJs: getDeprecated( getMergeFn( 'js' ), 'addClientJs' ),
+		addServerJs: getDeprecated( getMergeFn( 'js' ), 'addServerJs' ),
 		addTodo: getMergeFn( 'todo' ),
 		addClean: getMergeFn( 'clean' ),
 		addEslintRules: function( newRules ){
@@ -64,8 +75,15 @@ module.exports = function( repoRoot, grunt ) {
 
 	return SHAREDCFG;
 
+	function getDeprecated( mergefn, deprecatedName ){
+		return function( vals ){
+			deprecate( deprecatedName + ' is deprecated. Use addJs instead.' );
+			return mergefn( vals );
+		};
+	}
+
 	function getMergeFn( forKey ) {
-		return function( vals ) {
+		return function ( vals ) {
 			mergeConfig( forKey, vals );
 			return SHAREDCFG;
 		};
@@ -79,31 +97,4 @@ module.exports = function( repoRoot, grunt ) {
 		curConfig.push( value );
 		grunt.config.set( 'paths.' + key, _.flatten( curConfig ) );
 	}
-
 };
-
-function init( repoRoot, grunt ) {
-
-	var path = require( 'path' );
-
-	require( 'load-grunt-tasks' )( grunt );
-
-	// Load the configs
-	require( 'load-grunt-config' )( grunt, {
-
-		// path to task.js files
-		configPath: path.join( __dirname, '/grunt/config' ),
-
-		// data passed into config. Can use with <%= {something within data} %>
-		data: {
-			'sharedConfigRoot': __dirname
-		},
-
-		// can optionally pass options to load-grunt-tasks.
-		// If you set to false, it will disable auto loading tasks.
-		loadGruntTasks: false, // we do this ourselves above
-		// can post process config object before it gets passed to grunt
-		postProcess: function( /* config */ ) {}
-	} );
-
-}

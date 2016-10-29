@@ -9,18 +9,10 @@ module.exports = {
 		'README.md',
 		'package.json'
 	],
-	clientJs: [
-		'<%= sharedConfigRoot %>/empty.js %>'
-	],
-	serverJs: [
-		'<%= sharedConfigRoot %>/empty.js %>',
+	js: [
 		'*.js',
 		'grunt/**/*.js',
 		'lib/**/*.js'
-	],
-	js: [
-		'<%= paths.serverJs %>',
-		'<%= paths.clientJs %>'
 	],
 	clean: [
 		'docs.ignore'
