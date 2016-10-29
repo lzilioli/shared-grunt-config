@@ -1,3 +1,4 @@
+# v4.0.0 - **2016-10-28**
 - new `eslinit` task to initialize eslint
 - add descriptions to `logo` and `cfg` tasks
 - new `addJs` method to replace `addServerJs`, and `addClientJs`
