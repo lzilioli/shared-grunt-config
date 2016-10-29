@@ -56,19 +56,9 @@ module.exports = function( repoRoot, grunt, config ) {
 		addServerJs: getDeprecated( getMergeFn( 'js' ), 'addServerJs' ),
 		addTodo: getMergeFn( 'todo' ),
 		addClean: getMergeFn( 'clean' ),
-		addEslintRules: function( newRules ){
-			var rawConfig = grunt.config.getRaw( 'eslint' );
-			_.each( rawConfig, function( config, target ){
-				var rules = _.get( config, 'options.rules', false );
-				if( !rules ) {
-					return;
-				}
-				_.each( newRules, function( setting, rule ){
-					config.options.rules[ rule ] = setting;
-				} );
-				rawConfig[ target ] = config; // TODO is this needed?
-			} );
-			grunt.config.set( 'eslint', rawConfig );
+		addEslintRules: function(){
+			// TODO capture and add to eslintrc during eslinit
+			deprecate( 'addEslintRules is now a noop. Run `grunt eslinit` to initialize eslint.' );
 			return SHAREDCFG;
 		}
 	};
