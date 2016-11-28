@@ -143,8 +143,7 @@ module.exports = function( grunt ) {
 The default task is run when typing `grunt`. When a file being watched changes,
 the following will happen:
 
-- the source will be modified via the `jsb` task
-- the source will be linted by the `lint` task
+- the source will be modified and linted by the `jsb` task
 - jsdocs will be generated to `docs.ignore` within your repository
 
 <a name="o--tasks"></a>
@@ -198,9 +197,7 @@ changes with a release in the CHANGELOG.
 ### audit
 
 The audit task will review your code and tell you how it went. It will check for
-TODOs, and try to detect duplicate JS to aid in DRYing out your code. At the
-time, es6 code will not be checked for duplicates because the task is not
-compatible with some of the new JavaScript syntax.
+TODOs, and try to detect duplicate JS to aid in DRYing out your code.
 
 <a name="lint"></a>
 ### lint
