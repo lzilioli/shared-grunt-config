@@ -1,3 +1,4 @@
+# v5.0.0 - **2016-11-29**
 - **BREAKING** remove first argument from `shared-grunt-config` exported method
 
 # v4.0.1 - **2016-11-26**
