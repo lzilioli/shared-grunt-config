@@ -29,6 +29,7 @@
     "load-grunt-config": "0.19.2",
     "load-grunt-tasks": "3.5.2",
     "lodash": "4.16.4",
+    "markdown-toc": "0.13.0",
     "prompt": "1.0.0"
   },
   "devDependencies": {
