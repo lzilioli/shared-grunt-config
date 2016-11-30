@@ -1,3 +1,5 @@
+- **BREAKING** remove first argument from `shared-grunt-config` exported method
+
 # v4.0.1 - **2016-11-26**
 # v4.0.0 - **2016-10-28**
 - new `eslinit` task to initialize eslint

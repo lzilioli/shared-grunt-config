@@ -10,7 +10,7 @@ var loadGruntConfig = require( 'load-grunt-config' );
 var path = require( 'path' );
 
 /* istanbul ignore next */
-module.exports = function( repoRoot, grunt, config ) {
+module.exports = function( grunt, config ) {
 
 	var defaults = {
 		// path

@@ -56,14 +56,11 @@ grunt-todo
 
 ```javascript
 module.exports = function( grunt ) {
-    require( 'shared-grunt-config' )( __dirname, grunt, {
+    require( 'shared-grunt-config' )( grunt, {
         alsoLoadFrom: false
     } );
 };
 ```
-
-The first argument to the required function should be the fully qualified path
-to the root of your repo.
 
 `alsoLoadFrom` can be a directory within your repo. The directory will be loaded
 with [load-grunt-config](https://github.com/firstandthird/load-grunt-config)
