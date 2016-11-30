@@ -1,3 +1,15 @@
+- **ENHANCEMENT** add `markdowntoc` and `grunt markdowntoc` task. It is opt in.
+    To use it, add to your readme where you want the table of contents inserted.
+    The `grunt markdowntoc` task will update the readme based on the headers in
+    the `README.md` at the time the task was run. This task is run on `pre-push`
+    and the hook will fail if changes are generated. Run `grunt-hooks` to install
+    the latest hooks into your repo.
+    ```html
+      <!-- toc -->
+
+      <!-- tocstop -->
+    ```
+
 # v5.0.0 - **2016-11-29**
 - **BREAKING** remove first argument from `shared-grunt-config` exported method
 
