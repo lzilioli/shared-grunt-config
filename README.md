@@ -113,7 +113,7 @@ Each method is chain-able, and is explained below:
 
 ```javascript
 module.exports = function( grunt ) {
-    require( 'shared-grunt-config' )( __dirname, grunt )
+    require( 'shared-grunt-config' )( grunt )
 
     // add more files in which to search for TODOs
     // during the grunt TODO task
