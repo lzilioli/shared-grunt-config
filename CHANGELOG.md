@@ -1,3 +1,5 @@
+- **BREAKING** run `npm test` on pre-push hook. Add this script to your package.json if it doesn't exist.
+
 # v5.0.0 - **2016-11-29**
 - **BREAKING** remove first argument from `shared-grunt-config` exported method
 
