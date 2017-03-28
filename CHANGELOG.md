@@ -1,3 +1,4 @@
+# v6.0.0 - **2017-03-28**
 - **BREAKING** run `npm test` on pre-push hook. Add this script to your package.json if it doesn't exist.
 
 # v5.0.0 - **2016-11-29**
